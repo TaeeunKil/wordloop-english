@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="직접 회상과 간격 반복으로 영어 단어를 익히는 WordLoop 학습 앱"
+    />
+    <title>WordLoop | English Recall Trainer</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow">WORDLOOP · ENGLISH STUDY</p>
+          <h1>영어 단어를 직접 떠올리는 습관</h1>
+          <p class="subtitle">
+            <code>words.md</code>에 단어를 적으면 WordLoop가 회상 연습과 복습 시점을 챙겨준다.
+          </p>
+        </div>
+        <button id="reload-btn" class="button button-secondary" type="button">
+          words.md 다시 읽기
+        </button>
+      </header>
+
+      <section class="stats-grid" aria-label="학습 통계">
+        <article class="stat-card">
+          <span class="stat-label">전체 단어</span>
+          <strong id="total-count">-</strong>
+        </article>
+        <article class="stat-card stat-card-accent">
+          <span class="stat-label">미확인 단어</span>
+          <strong id="pending-count">-</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">이번 세션</span>
+          <strong id="session-count">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">평균 레벨</span>
+          <strong id="average-level">-</strong>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <section class="card quiz-card" aria-labelledby="quiz-heading">
+          <div class="quiz-topline">
+            <span id="mode-label" class="pill">DET Reading</span>
+            <span id="question-counter" class="muted-text">준비 중...</span>
+          </div>
+
+          <div id="loading-state" class="state-message">
+            <div class="spinner" aria-hidden="true"></div>
+            <p>words.md를 불러오는 중...</p>
+          </div>
+
+          <div id="error-state" class="state-message is-hidden" role="alert">
+            <p id="error-message"></p>
+            <p class="help-text">
+              GitHub Pages 또는 로컬 서버에서 열어 주세요. 파일을 직접 더블클릭하면
+              브라우저 보안 정책 때문에 words.md를 읽지 못할 수 있습니다.
+            </p>
+          </div>
+
+          <div id="quiz-content" class="is-hidden">
+            <p id="focus-level" class="focus-level"></p>
+            <h2 id="quiz-heading">문맥에 맞는 단어를 고르세요.</h2>
+            <p id="question-text" class="question-text"></p>
+
+            <div id="answer-area" class="answer-area">
+              <div class="answer-input-row">
+                <input
+                  id="answer-input"
+                  class="answer-input"
+                  type="text"
+                  autocomplete="off"
+                  placeholder="답을 직접 입력하세요"
+                  aria-label="답 입력"
+                />
+                <button id="check-answer-btn" class="button button-primary" type="button">
+                  확인
+                </button>
+              </div>
+              <div class="answer-tools">
+                <button id="hint-btn" class="hint-button" type="button">힌트 보기</button>
+                <div id="hint-box" class="hint-box is-hidden" aria-live="polite"></div>
+              </div>
+            </div>
+
+            <div id="options" class="options is-hidden" role="group" aria-label="답 선택지"></div>
+
+            <div id="feedback" class="feedback is-hidden" aria-live="polite">
+              <p id="feedback-title" class="feedback-title"></p>
+              <p id="feedback-text" class="feedback-text"></p>
+              <button id="next-btn" class="button button-primary" type="button">
+                다음 문제
+              </button>
+            </div>
+          </div>
+
+          <div id="complete-state" class="complete-state is-hidden">
+            <div class="complete-icon" aria-hidden="true">✓</div>
+            <h2>현재 복습할 단어를 모두 확인했어요.</h2>
+            <p>
+              약한 단어 우선 모드를 끄면 전체 단어를 복습할 수 있습니다.
+            </p>
+            <button id="review-all-btn" class="button button-primary" type="button">
+              전체 단어 복습하기
+            </button>
+          </div>
+        </section>
+
+        <aside class="card side-card" aria-label="학습 설정과 단어 목록">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">STUDY SETTINGS</p>
+              <h2>학습 설정</h2>
+            </div>
+          </div>
+
+          <div class="settings">
+            <label class="field-label" for="mode-select">문제 유형</label>
+            <select id="mode-select" class="select-input">
+              <option value="context-input">문맥 → 영어 단어 직접 입력</option>
+              <option value="word-input">영단어 → 한국어 뜻 직접 입력</option>
+              <option value="meaning-input">한국어 뜻 → 영어 단어 직접 입력</option>
+              <option value="multiple-choice">4지선다 확인 모드</option>
+            </select>
+
+            <label class="check-row" for="weak-only">
+              <input id="weak-only" type="checkbox" checked />
+              <span>
+                <strong>미확인 단어 우선</strong>
+                <small>레벨 5가 될 때까지 간격을 두고 반복합니다.</small>
+              </span>
+            </label>
+          </div>
+
+          <div class="side-actions">
+            <button id="export-btn" class="button button-secondary" type="button">
+              진행도 내보내기
+            </button>
+            <button id="reset-btn" class="button button-danger" type="button">
+              진행도 초기화
+            </button>
+          </div>
+
+          <div class="list-heading">
+            <h2>단어 목록</h2>
+            <span class="muted-text">레벨 0–5</span>
+          </div>
+          <div id="word-list" class="word-list"></div>
+        </aside>
+      </section>
+
+      <footer class="app-footer">
+        WordLoop · 진행도는 이 브라우저에 저장되고 단어 내용은 <code>words.md</code>에서 관리합니다.
+      </footer>
+    </main>
+  </body>
+</html>
