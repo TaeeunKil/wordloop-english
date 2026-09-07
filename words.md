@@ -1,4 +1,4 @@
-# My DET Vocabulary
+# My English Vocabulary
 
 이 파일의 `## 단어` 블록을 복사해서 나만의 단어를 추가하세요.
 각 단어에는 `meaning`과 `example`을 넣어야 합니다.
