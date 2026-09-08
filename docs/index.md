@@ -11,3 +11,4 @@
 - [Legacy migration](migration/legacy-to-v1.md)
 - [Learning log format](learning-log/README.md)
 - [ADR-0001: external full-stack app](decisions/0001-external-full-stack-app.md)
+- [ADR-0002: shared vocabulary catalog and difficulty](decisions/0002-shared-vocabulary-catalog.md)
