@@ -1,21 +1,36 @@
+import Link from "next/link";
 import { requireUser } from "@/lib/supabase/server";
+import { ActivityHeatmap } from "@/components/activity-heatmap";
+import { dayKey, reviewDate } from "@/lib/calendar";
 import type { Stats } from "@/lib/types";
 import { percentage } from "@/lib/validation";
 
 export default async function StatsPage() {
-  const { client } = await requireUser();
-  const { data, error } = await client.rpc("study_stats");
-  if (error) throw new Error("Unable to load stats");
-  const stats = data as Stats;
-  const max = Math.max(1, ...stats.days.map(day => day.reviews));
-  return <><div className="page-heading"><div><p className="eyebrow">A RECORD OF RETURNING</p><h1>학습 통계<span className="accent">.</span></h1></div></div>
-    <section className="stat-grid">
-      <div><span className="quiet">전체 응답</span><strong>{stats.total}</strong></div>
-      <div><span className="quiet">직접 입력 정답률</span><strong>{percentage(stats.typed_correct, stats.typed_total)}</strong></div>
-      <div><span className="quiet">완료한 세션</span><strong>{stats.completed_sessions}</strong></div>
-      <div><span className="quiet">학습 단어</span><strong>{stats.active_words}</strong></div>
+  const { client, user } = await requireUser();
+  const [result, settings] = await Promise.all([
+    client.rpc("study_stats"),
+    client.from("user_settings").select("time_zone").eq("user_id", user.id).maybeSingle(),
+  ]);
+  if (result.error || settings.error) throw new Error("Unable to load stats");
+  const stats = result.data as Stats;
+  const timeZone = settings.data?.time_zone ?? "Asia/Seoul";
+  const today = dayKey(new Date(), timeZone);
+  return <>
+    <div className="page-heading"><div><p className="eyebrow">RECORD / YOUR PRACTICE</p><h1>쌓이는 기록</h1></div><Link className="button" href="/study">오늘의 학습 →</Link></div>
+    <ActivityHeatmap days={stats.days} today={today} timeZone={timeZone} />
+    <dl className="metrics four"><div><dt>전체 학습 응답</dt><dd>{stats.total}<small>회</small></dd></div><div><dt>직접 입력 정답률 · 무힌트</dt><dd>{percentage(stats.typed_correct, stats.typed_total)}</dd></div><div><dt>완료한 세션</dt><dd>{stats.completed_sessions}<small>회</small></dd></div><div><dt>학습 중인 단어</dt><dd>{stats.active_words}<small>개</small></dd></div></dl>
+    <section className="performance-section"><div className="section-heading"><h2>어떻게 떠올렸나요?</h2><span className="small quiet">전체 기간</span></div>
+      <dl className="performance-list">
+        <div><dt>직접 입력 <span className="small quiet">힌트 없이</span></dt><dd>{stats.typed_correct} / {stats.typed_total} 정답</dd></div>
+        <div><dt>도움을 받은 응답 <span className="small quiet">힌트·객관식</span></dt><dd>{stats.assisted_correct} / {stats.assisted_total} 정답</dd></div>
+        <div><dt>스스로 확인 <span className="small quiet">정답률에 미포함</span></dt><dd>{stats.self_good} / {stats.self_total} 알고 있었어요</dd></div>
+      </dl>
     </section>
-    <section><div className="section-heading"><h2>최근 30일</h2><span className="quiet">하루 응답 수</span></div><div className="days">{stats.days.length ? stats.days.slice(0, 30).reverse().map(day => <div className="day" key={day.day} title={`${day.day}: ${day.reviews}개`}><div className="day-bar" style={{ height: `${Math.max(6, Math.round(day.reviews / max * 120))}px` }} /><span>{day.day.slice(5)}</span></div>) : <p className="quiet">아직 기록이 없습니다. 오늘 한 단어부터 시작해 보세요.</p>}</div></section>
-    <section><div className="section-heading"><h2>최근 틀린 단어</h2><span className="quiet">최대 20개</span></div>{stats.mistakes.length ? <div className="word-list">{stats.mistakes.map(mistake => <div className="plain-row" key={mistake.id}><div><strong lang="en">{mistake.term}</strong><p className="quiet">내 답: {mistake.answer || "(스스로 확인)"}</p></div><time className="quiet">{new Date(mistake.reviewed_at).toLocaleDateString("ko-KR")}</time></div>)}</div> : <div className="empty"><p>아직 틀린 기록이 없습니다.</p></div>}</section>
+    <section><div className="section-heading"><h2>다시 기억할 단어</h2><span className="small quiet">최근 오답 · 최대 20개</span></div>
+      {stats.mistakes.length ? <ul className="mistake-list">{stats.mistakes.map(mistake => <li key={mistake.id}>
+        <div><Link className="word-link" lang="en" href={"/words?" + new URLSearchParams({ q: mistake.term })}>{mistake.term}</Link><p className="quiet">내 답: <span lang="en">{mistake.answer || "(스스로 확인)"}</span></p></div>
+        <time className="small quiet" dateTime={mistake.reviewed_at}>{reviewDate(mistake.reviewed_at, timeZone)}</time>
+      </li>)}</ul> : <div className="empty"><h3>아직 틀린 기록이 없어요.</h3><p>틀린 표현은 이곳에 모아 두고 다시 확인할 수 있습니다.</p></div>}
+    </section>
   </>;
 }

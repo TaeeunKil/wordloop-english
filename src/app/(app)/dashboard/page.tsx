@@ -1,22 +1,40 @@
 import Link from "next/link";
 import { requireUser } from "@/lib/supabase/server";
-import { percentage } from "@/lib/validation";
-import type { Stats } from "@/lib/types";
+import { currentStreak, dayKey } from "@/lib/calendar";
+import type { Stats, Word } from "@/lib/types";
+
 export default async function Dashboard() {
-  const { client } = await requireUser();
-  const [result, settings] = await Promise.all([client.rpc("study_stats"), client.from("user_settings").select("daily_goal,time_zone").maybeSingle()]);
-  if (result.error || settings.error) throw new Error("Unable to load dashboard");
+  const { client, user } = await requireUser();
+  const [result, settings, recent] = await Promise.all([
+    client.rpc("study_stats"),
+    client.from("user_settings").select("daily_goal,time_zone").eq("user_id", user.id).maybeSingle(),
+    client.from("words").select("id,term,meaning").eq("user_id", user.id).eq("archived", false).order("created_at", { ascending: false }).limit(4),
+  ]);
+  if (result.error || settings.error || recent.error) throw new Error("Unable to load dashboard");
   const stats = result.data as Stats;
   const goal = settings.data?.daily_goal ?? 20;
   const timeZone = settings.data?.time_zone ?? "Asia/Seoul";
-  const today = new Intl.DateTimeFormat("en-CA", { timeZone, year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+  const today = dayKey(new Date(), timeZone);
   const count = stats.days.find(d => d.day === today)?.reviews ?? 0;
-  return <><div className="page-heading"><div><p className="eyebrow">YOUR DAILY PRACTICE</p><h1>오늘의 학습<span className="accent">.</span></h1></div><p className="quiet">{today} · {timeZone}</p></div>
-    <section className="dashboard-focus"><div><p className="eyebrow">READY TO RECALL</p><p className="big-number">{stats.due_words + stats.fresh_words}<span>단어</span></p><p>복습 {stats.due_words}개 · 새 단어 {stats.fresh_words}개</p>
-      <Link href={stats.active_words ? "/study" : "/words"} className="button primary">{stats.active_words ? "학습 시작 / 이어하기" : "첫 단어 추가하기"} <span aria-hidden="true">↗</span></Link></div>
-      <div className="daily-progress"><h2>하루의 작은 목표</h2><p><strong>{count}</strong> / {goal} 응답</p><progress value={Math.min(count, goal)} max={goal} aria-label="오늘의 학습 목표" /><p className="quiet">목표를 채운 뒤에도 계속 공부할 수 있어요.</p></div></section>
-    <dl className="metrics"><div><dt>학습 중인 단어</dt><dd>{stats.active_words}</dd></div><div><dt>저장된 응답</dt><dd>{stats.total}</dd></div><div><dt>직접 입력 정답률 · 무힌트</dt><dd>{percentage(stats.typed_correct, stats.typed_total)}</dd></div></dl>
-    <div className="section-heading"><h2>내 학습 관리</h2><Link href="/stats">전체 통계 →</Link></div>
-    <div className="plain-row"><div><h3>단어장 정리</h3><p className="quiet">단어를 추가하고, 뜻과 예문을 다듬어 보세요.</p></div><Link href="/words" className="button">단어장 열기</Link></div>
+  const ready = stats.due_words + stats.fresh_words;
+  return <>
+    <div className="page-heading"><div><p className="eyebrow">TODAY / DAILY PRACTICE</p><h1>오늘의 학습</h1></div><p className="quiet small"><time dateTime={today}>{today.replaceAll("-", ".")}</time><br />{timeZone}</p></div>
+    <section className="dashboard-focus" aria-labelledby="ready-heading"><div className="recall-focus">
+      <h2 id="ready-heading">{ready ? "지금 떠올릴 단어" : stats.active_words ? "지금은 복습을 마쳤어요" : "첫 단어부터 시작해요"}</h2>
+      <p className="big-number">{ready}<span>단어</span></p>
+      <p className="quiet">{stats.active_words ? `복습 ${stats.due_words}개 · 새 단어 ${stats.fresh_words}개` : "기억하고 싶은 표현과 뜻을 남겨 주세요."}</p>
+      <Link href={ready ? "/study" : "/words"} className="button primary">{ready ? "학습 시작" : stats.active_words ? "단어장 둘러보기" : "첫 단어 추가하기"}<span aria-hidden="true">→</span></Link>
+      {ready > 0 && <p className="small quiet session-note">한 번에 최대 20개씩 학습합니다.</p>}
+    </div><div className="daily-progress"><p className="eyebrow">TODAY’S PROGRESS</p><h2>오늘 남긴 반복</h2>
+      <p className="goal-count"><strong>{count}</strong><span> / {goal} 응답</span></p>
+      <progress value={Math.min(count, goal)} max={goal} aria-label={`오늘 목표 ${goal}회 중 ${count}회 완료`} />
+      <p className="quiet">{count >= goal ? "오늘의 목표를 채웠어요. 남은 단어도 이어갈 수 있습니다." : `${Math.max(0, goal - count)}번 더 떠올리면 오늘의 목표에 도착해요.`}</p>
+      <Link href="/stats" className="text-link">학습 기록 보기 →</Link>
+    </div></section>
+    <dl className="metrics"><div><dt>연속 학습 · 최근 30일 내</dt><dd>{currentStreak(stats.days, today)}<small>일</small></dd></div><div><dt>학습 중인 단어</dt><dd>{stats.active_words}<small>개</small></dd></div><div><dt>오늘 완료한 응답</dt><dd>{count}<small>회</small></dd></div></dl>
+    <section><div className="section-heading"><h2>최근 담은 단어</h2><Link className="text-link" href="/words">단어장 전체 →</Link></div>
+      {recent.data?.length ? <ul className="recent-words">{(recent.data as Pick<Word, "id" | "term" | "meaning">[]).map(word => <li key={word.id}><Link href={"/words?" + new URLSearchParams({ q: word.term })}><strong lang="en">{word.term}</strong><span>{word.meaning}</span><span aria-hidden="true">↗</span></Link></li>)}</ul>
+        : <div className="empty"><h3>아직 담아둔 단어가 없어요.</h3><p>단어장에 표현을 추가하면 이곳에서 다시 만날 수 있습니다.</p><Link className="text-link" href="/words">단어 추가하러 가기 →</Link></div>}
+    </section>
   </>;
 }

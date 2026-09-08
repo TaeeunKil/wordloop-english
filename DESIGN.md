@@ -193,7 +193,7 @@ WordLoop는 블로그의 종이색과 검정 계열을 유지하되, 앱에서�
 
 ### Buttons
 
-- Primary: `--accent` 배경, `--text-on-accent` 텍스트, `8px` radius
+- Primary: `--accent-hover` 배경, `--text-on-accent` 텍스트, `8px` radius. 작은 버튼 글자의 WCAG AA 대비를 위해 기본 채움에도 짙은 테라코타를 사용한다 (`#d45b3d` 조합 약 3.77:1 → `#b9472f` 조합 약 5.05:1). `--accent`는 진행률·선택 표시·잔디에서 유지한다.
 - Secondary: 투명 또는 `--surface-subtle` 배경, `1px solid var(--line)`
 - Tertiary: 배경과 테두리 없이 텍스트 링크로 표현
 - 최소 터치 영역은 `44px` 이상이다.
