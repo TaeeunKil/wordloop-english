@@ -77,6 +77,8 @@ small, .small { font-size: .8rem; }
 .auth-actions { display: flex; flex-wrap: wrap; gap: .65rem; }
 .auth-actions form { flex: 1 1 190px; }
 .auth-actions button { width: 100%; background: var(--surface); justify-content: space-between; }
+.auth-label { display: inline-flex; align-items: center; gap: .7rem; min-width: 0; }
+.brand-icon { width: 1.2rem; height: 1.2rem; flex: 0 0 auto; }
 .hero-start > .text-link { display: flex; width: fit-content; margin-top: .65rem; }
 .hero-baseline { margin-top: 3rem; padding-top: 1.3rem; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: .65rem; letter-spacing: .13em; color: var(--text-secondary); }
 .principles { max-width: 1200px; margin: auto; padding: 3.5rem 32px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
