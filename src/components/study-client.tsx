@@ -7,7 +7,7 @@ import type { Receipt, ReviewInput, StudyItem } from "@/lib/types";
 import { choiceOptions } from "@/lib/validation";
 import { reviewDate } from "@/lib/calendar";
 
-type Session = { id: string; queue: StudyItem[]; alternatives: string[] };
+type Session = { id: string; queue: StudyItem[]; alternatives: string[]; day: string; trackCode: string };
 export function StudyClient({ timeZone }: { timeZone: string }) {
   const [session, setSession] = useState<Session | null>(null);
   const [index, setIndex] = useState(0);
@@ -41,7 +41,7 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
         if (result.error || !result.data) setError(result.error ?? "학습 목록을 불러오지 못했습니다.");
         else {
           const data = result.data;
-          setSession({ id: data.sessionId, queue: data.queue, alternatives: data.alternatives });
+          setSession({ id: data.sessionId, queue: data.queue, alternatives: data.alternatives, day: data.day, trackCode: data.trackCode });
           setIndex(0); setAnswer(""); setHint(false); setFeedback(null); setRequest(null); setCompleted(null);
           setOptions(data.queue[0] ? choiceOptions(data.queue[0].term, data.alternatives) : []);
         }
@@ -103,7 +103,7 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
 
   if (!session) return <section className="study-intro">
     <p className="eyebrow">READY WHEN YOU ARE</p><h2>한 단어에,<br />잠깐 집중해 볼까요?</h2>
-    <p className="lead quiet">뜻을 보고 영어 표현을 떠올려 보세요.<br />복습할 단어와 새 단어를 최대 20개씩 준비합니다.</p>
+    <p className="lead quiet">뜻을 보고 영어 표현을 떠올려 보세요.<br />복습할 단어가 먼저 나오고, 빈자리는 목표에 맞는 랜덤 단어로 채웁니다.</p>
     <button className="primary" onClick={begin} disabled={pending}>{pending ? "학습 준비 중…" : "학습 시작하기 →"}</button>
     <p className="small quiet">Enter로 제출 · 막히면 힌트 · 응답마다 기록</p>{errorMessage}
   </section>;
@@ -112,7 +112,7 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
 
   const locked = pending || Boolean(request);
   return <section className="study-workspace" aria-busy={pending}>
-    <div className="study-progress"><span>단어 {String(index + 1).padStart(2, "0")} <span className="quiet">/ {String(session.queue.length).padStart(2, "0")}</span></span><span className="small quiet">{item.due_at ? `복습 단계 ${item.stage}` : "처음 만나는 단어"}</span></div>
+    <div className="study-progress"><span>단어 {String(index + 1).padStart(2, "0")} <span className="quiet">/ {String(session.queue.length).padStart(2, "0")}</span></span><span className="small quiet">{item.daily_source === "catalog_random" ? "오늘의 랜덤 단어" : item.due_at ? `복습 단계 ${item.stage}` : "처음 만나는 단어"}</span></div>
     <progress value={index + (feedback ? 1 : 0)} max={session.queue.length} aria-label="이번 학습에서 저장한 응답" />
     <div className="study-prompt"><p className="eyebrow">이 뜻의 영어 표현은?</p><h2>{item.meaning}</h2></div>
     {hint && !feedback && <aside className="hint-content" aria-label="단어 힌트"><p>첫 글자 <strong lang="en">{item.term.slice(0, 1)}</strong> · {item.term.length}글자</p>{item.example && <p lang="en">{item.example}</p>}<span className="small quiet">힌트 사용 응답으로 기록됩니다.</span></aside>}

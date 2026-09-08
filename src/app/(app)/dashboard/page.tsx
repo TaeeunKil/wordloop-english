@@ -17,14 +17,15 @@ export default async function Dashboard() {
   const today = dayKey(new Date(), timeZone);
   const count = stats.days.find(d => d.day === today)?.reviews ?? 0;
   const ready = stats.due_words + stats.fresh_words;
+  const dailyTarget = Math.max(1, Math.min(goal, 200));
   return <>
     <div className="page-heading"><div><p className="eyebrow">TODAY / DAILY PRACTICE</p><h1>오늘의 학습</h1></div><p className="quiet small"><time dateTime={today}>{today.replaceAll("-", ".")}</time><br />{timeZone}</p></div>
     <section className="dashboard-focus" aria-labelledby="ready-heading"><div className="recall-focus">
-      <h2 id="ready-heading">{ready ? "지금 떠올릴 단어" : stats.active_words ? "지금은 복습을 마쳤어요" : "첫 단어부터 시작해요"}</h2>
-      <p className="big-number">{ready}<span>단어</span></p>
-      <p className="quiet">{stats.active_words ? `복습 ${stats.due_words}개 · 새 단어 ${stats.fresh_words}개` : "기억하고 싶은 표현과 뜻을 남겨 주세요."}</p>
-      <Link href={ready ? "/study" : "/words"} className="button primary">{ready ? "학습 시작" : stats.active_words ? "단어장 둘러보기" : "첫 단어 추가하기"}<span aria-hidden="true">→</span></Link>
-      {ready > 0 && <p className="small quiet session-note">한 번에 최대 20개씩 학습합니다.</p>}
+      <h2 id="ready-heading">{ready ? "지금 떠올릴 단어" : "오늘의 랜덤 단어"}</h2>
+      <p className="big-number">{ready || dailyTarget}<span>{ready ? "단어" : "개 준비"}</span></p>
+      <p className="quiet">{ready ? `복습 ${stats.due_words}개 · 새 단어 ${stats.fresh_words}개` : `내 학습 트랙에 맞는 단어를 ${dailyTarget}개까지 골라 둡니다.`}</p>
+      <Link href="/study" className="button primary">오늘의 학습 시작 <span aria-hidden="true">→</span></Link>
+      <p className="small quiet session-note">복습 단어가 먼저 나오고, 빈자리는 카탈로그에서 무작위로 채웁니다.</p>
     </div><div className="daily-progress"><p className="eyebrow">TODAY’S PROGRESS</p><h2>오늘 남긴 반복</h2>
       <p className="goal-count"><strong>{count}</strong><span> / {goal} 응답</span></p>
       <progress value={Math.min(count, goal)} max={goal} aria-label={`오늘 목표 ${goal}회 중 ${count}회 완료`} />

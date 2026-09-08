@@ -1,9 +1,10 @@
 export type Word = {
   id: string; user_id: string; term: string; meaning: string; example: string; note: string;
   archived: boolean; version: number; created_at: string; updated_at: string;
+  catalog_id?: string | null; origin?: "custom" | "catalog";
 };
 export type ReviewMode = "typed" | "choice" | "self";
-export type StudyItem = Word & { stage: number; state_version: number; due_at: string | null };
+export type StudyItem = Word & { stage: number; state_version: number; due_at: string | null; daily_source?: "due" | "fresh" | "catalog_random" };
 export type ReviewInput = {
   id: string; session_id: string; word_id: string; word_version: number; state_version: number;
   mode: ReviewMode; answer: string; hint_used: boolean; rating: "good" | "again" | null;

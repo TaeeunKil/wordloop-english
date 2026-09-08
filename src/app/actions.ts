@@ -51,16 +51,15 @@ export async function archiveWord(id: string, version: number, archived: boolean
   revalidatePath("/words"); revalidatePath("/dashboard");
   return { data: data as Word };
 }
-export async function startStudy(): Promise<ActionResult<{ sessionId: string; queue: StudyItem[]; alternatives: string[] }>> {
+export async function startStudy(): Promise<ActionResult<{ sessionId: string; queue: StudyItem[]; alternatives: string[]; day: string; trackCode: string }>> {
   const { client, user } = await requireUser();
-  const { data: sessionId, error } = await client.rpc("start_session");
-  if (error || !sessionId) return { error: failure() };
-  const [queue, words] = await Promise.all([
-    client.rpc("study_queue"),
-    client.from("words").select("term").eq("user_id", user.id).eq("archived", false).order("id").limit(100),
-  ]);
-  if (queue.error || words.error) return { error: "학습 목록을 불러오지 못했습니다. 다시 시도하세요." };
-  return { data: { sessionId, queue: queue.data as StudyItem[], alternatives: (words.data ?? []).map(w => w.term as string) } };
+  const { data, error } = await client.rpc("start_daily_session");
+  if (error || !data) return { error: failure(error?.message) };
+  const plan = data as { session_id?: string; queue?: StudyItem[]; day?: string; track_code?: string };
+  if (!plan.session_id || !plan.day || !plan.track_code || !Array.isArray(plan.queue)) return { error: "오늘의 학습 목록을 불러오지 못했습니다. 다시 시도하세요." };
+  const words = await client.from("words").select("term").eq("user_id", user.id).eq("archived", false).order("id").limit(100);
+  if (words.error) return { error: "학습 선택지를 불러오지 못했습니다. 다시 시도하세요." };
+  return { data: { sessionId: plan.session_id, queue: plan.queue, day: plan.day, trackCode: plan.track_code, alternatives: (words.data ?? []).map(w => w.term as string) } };
 }
 export async function submitReview(input: ReviewInput): Promise<ActionResult<Receipt>> {
   const parsed = reviewSchema.safeParse(input);

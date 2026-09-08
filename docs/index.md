@@ -12,3 +12,4 @@
 - [Learning log format](learning-log/README.md)
 - [ADR-0001: external full-stack app](decisions/0001-external-full-stack-app.md)
 - [ADR-0002: shared vocabulary catalog and difficulty](decisions/0002-shared-vocabulary-catalog.md)
+- [ADR-0003: vocabulary quality and daily review scheduling](decisions/0003-vocabulary-quality-and-review-scheduling.md)

@@ -32,7 +32,7 @@
   --font: "Pretendard", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 * { box-sizing: border-box; }
-html { background: var(--background); color-scheme: light; }
+html { background: var(--background); color-scheme: light; scrollbar-gutter: stable; }
 body { margin: 0; color: var(--text); font-family: var(--font); line-height: 1.65; }
 body:has(dialog[open]) { overflow: hidden; }
 ::selection { background: var(--accent-soft); color: var(--text); }
@@ -65,7 +65,7 @@ small, .small { font-size: .8rem; }
 .public-header, .app-toolbar { max-width: 1200px; margin: auto; min-height: 88px; padding: 1rem 32px; display: flex; align-items: center; gap: 2rem; }
 .public-header { justify-content: space-between; }
 .public-header .eyebrow { margin: 0; font-size: .65rem; }
-.logo { font-size: 1.55rem; font-weight: 700; letter-spacing: -.055em; white-space: nowrap; display: inline-flex; align-items: center; min-height: 44px; }
+.logo { width: 7.2rem; flex: 0 0 7.2rem; font-size: 1.55rem; font-weight: 700; letter-spacing: -.055em; white-space: nowrap; display: inline-flex; align-items: center; min-height: 44px; }
 .logo span { color: var(--accent); }
 .site-footer { max-width: 1136px; margin: auto; padding: 1.5rem 0 2rem; display: flex; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--line); color: var(--text-secondary); font-size: .75rem; }
 .hero { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -251,7 +251,7 @@ details > .actions { margin-bottom: 1rem; }
 pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .8rem; padding: 1.2rem; background: var(--surface-subtle); border-left: 2px solid var(--line-strong); }
 .error-page { max-width: 720px; padding: 4rem 0; }
 .error-page h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); }
-.loading { padding: 4rem 0; color: var(--text-secondary); }
+.loading { min-height: 16rem; padding: 4rem 0; color: var(--text-secondary); }
 .loading p { margin: 1rem 0 .2rem; }
 .loading-line { display: block; width: 100%; max-width: 280px; height: 3px; background: var(--line); }
 .loading-line::after { content: ""; display: block; height: 3px; width: 35%; background: var(--accent); }
