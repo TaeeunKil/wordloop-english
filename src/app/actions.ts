@@ -11,16 +11,18 @@ function failure(message?: string) {
   if (message && /STALE_|REVIEW_NOT_DUE|WORD_UNAVAILABLE|SESSION_CLOSED/.test(message)) return "다른 기기에서 단어나 학습 상태가 변경되었습니다. 현재 상태를 다시 불러오세요.";
   return "저장하지 못했습니다. 연결 또는 로그인 상태를 확인하고 같은 응답을 재시도하세요.";
 }
-export async function login() {
+async function loginWithProvider(provider: "github" | "google") {
   const config = getConfig();
   const client = await serverClient();
   if (!config || !client) redirect("/setup");
   const { data, error } = await client.auth.signInWithOAuth({
-    provider: "github", options: { redirectTo: config.site + "/auth/callback" },
+    provider, options: { redirectTo: config.site + "/auth/callback" },
   });
   if (error || !data.url) redirect("/?auth=failed");
   redirect(data.url);
 }
+export async function login() { return loginWithProvider("github"); }
+export async function loginWithGoogle() { return loginWithProvider("google"); }
 export async function logout() {
   const client = await serverClient();
   if (client) {

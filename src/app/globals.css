@@ -25,6 +25,8 @@ button, .button { border: 1px solid var(--ink); border-radius: 999px; padding: .
 button:hover, .button:hover { transform: translateY(-1px); }
 button:disabled { cursor: wait; opacity: .55; transform: none; }
 .primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+.auth-actions { display: flex; flex-wrap: wrap; gap: .65rem; }
+.auth-actions form { margin: 0; }
 .site-header { max-width: 1180px; margin: auto; padding: 1.4rem 2rem; display: flex; align-items: baseline; gap: 1.25rem; }
 .logo { font-size: 1.35rem; font-weight: 850; letter-spacing: -.06em; }
 .logo span { color: #6d786e; font-size: .6rem; vertical-align: top; margin-left: .15rem; }
