@@ -202,8 +202,8 @@ create function public.study_stats() returns jsonb language sql stable security 
     'due_words',(select count(*) from public.review_state s join public.words w on w.id=s.word_id and w.user_id=s.user_id where s.user_id=auth.uid() and not w.archived and s.due_at<=now()),
     'fresh_words',(select count(*) from public.words w where w.user_id=auth.uid() and not w.archived and not exists(select 1 from public.review_state s where s.user_id=w.user_id and s.word_id=w.id)),
     'completed_sessions',(select count(*) from public.study_sessions where user_id=auth.uid() and completed_at is not null),
-    'days',coalesce((select jsonb_agg(to_jsonb(d) order by d.day desc) from (
-      select to_char(reviewed_at at time zone (select tz from settings),'YYYY-MM-DD') day,count(*) reviews from e
+    'days',coalesce((select jsonb_agg(to_jsonb(d) order by d."day" desc) from (
+      select to_char(reviewed_at at time zone (select tz from settings),'YYYY-MM-DD') as "day",count(*) as reviews from e
       where reviewed_at >= now()-interval '30 days' group by 1) d),'[]'::jsonb),
     'mistakes',coalesce((select jsonb_agg(to_jsonb(m)) from (
       select id,expected_answer term,answer,reviewed_at from e where correct=false order by reviewed_at desc,id limit 20
