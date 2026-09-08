@@ -1,0 +1,19 @@
+export type Word = {
+  id: string; user_id: string; term: string; meaning: string; example: string; note: string;
+  archived: boolean; version: number; created_at: string; updated_at: string;
+};
+export type ReviewMode = "typed" | "choice" | "self";
+export type StudyItem = Word & { stage: number; state_version: number; due_at: string | null };
+export type ReviewInput = {
+  id: string; session_id: string; word_id: string; word_version: number; state_version: number;
+  mode: ReviewMode; answer: string; hint_used: boolean; rating: "good" | "again" | null;
+};
+export type Receipt = { id: string; correct: boolean | null; expected_answer: string; stage: number; due_at: string; reviewed_at: string };
+export type Stats = {
+  total: number; active_words: number; due_words: number; fresh_words: number;
+  typed_total: number; typed_correct: number; assisted_total: number; assisted_correct: number;
+  self_total: number; self_good: number; completed_sessions: number;
+  days: { day: string; reviews: number }[];
+  mistakes: { id: string; term: string; answer: string; reviewed_at: string }[];
+};
+export type ActionResult<T> = { data: T; error?: never } | { data?: never; error: string };

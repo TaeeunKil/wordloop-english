@@ -1,0 +1,17 @@
+node_modules/
+.next/
+out/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+.env*
+!.env.example
+*.pem
+*.key
+supabase/.temp/
+supabase/.branches/
+work/
+# Original user-owned snapshots may contain personal data. Local recovery only.
+/archive/legacy/
+/backups/
