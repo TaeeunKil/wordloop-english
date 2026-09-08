@@ -1,6 +1,6 @@
 archive/
 docs/
-supabase/
+/supabase/
 tests/
 work/
 backups/
