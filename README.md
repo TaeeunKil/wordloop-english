@@ -43,4 +43,4 @@ npm run dev
 
 ## Study contract
 
-직접 입력·객관식 응답은 정답 여부를 서버에서 계산합니다. `review_events`는 append-only 기록이고 `review_state`는 복습 일정을 담습니다. 두 변경과 사용자별 adaptive ability 갱신은 `submit_review` RPC 안에서 한 트랜잭션으로 처리하며, 클라이언트 재시도는 응답 ID 멱등성으로 중복 기록을 막습니다.
+직접 입력·객관식 응답은 정답 여부를 서버에서 계산합니다. 문제에는 예문 전체 뜻을 보여주고, 단어 뜻은 힌트에서 확인합니다. `review_events`는 append-only 기록이고 `review_state`는 복습 일정과 단어별 0–100 숙련도를 담습니다. 두 변경과 사용자별 adaptive ability 갱신은 `submit_review` RPC 안에서 한 트랜잭션으로 처리하며, 클라이언트 재시도는 응답 ID 멱등성으로 중복 기록을 막습니다.

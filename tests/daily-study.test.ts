@@ -39,6 +39,8 @@ describe("daily study plans", () => {
       "20260908120500_daily_study.sql",
       "20260908120600_daily_continue.sql",
       "20260909130000_adaptive_learner_ability.sql",
+      "20260909150000_word_mastery_and_example_meaning.sql",
+      "20260909150100_vocabulary_example_meanings.sql",
     ]) {
       await db.exec(readFileSync(`supabase/migrations/${migration}`, "utf8"));
     }

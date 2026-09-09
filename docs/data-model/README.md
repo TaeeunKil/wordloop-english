@@ -6,9 +6,9 @@
 | `words` | user's active or archived vocabulary |
 | `study_sessions` | open/completed practice sessions |
 | `review_events` | append-only response history and receipt |
-| `review_state` | current stage, due time, and optimistic version |
+| `review_state` | current stage, due time, optimistic version, and personal word mastery |
 | `difficulty_levels` | shared L1–L7 editorial scale and non-equivalent exam guidance |
-| `vocabulary_catalog` | shared original sense cards with level, domain and provenance |
+| `vocabulary_catalog` | shared original sense cards with level, domain, full example meaning and provenance |
 | `learning_tracks` | DET 120+, TOEIC L&R 750 and 900 target configurations |
 | `catalog_track_rules` | per-card/per-track core, stretch or optional relevance |
 | `study_days` | one persisted learner-local plan per calendar day and learning track |
@@ -25,6 +25,8 @@ The original five tables carry an ownership path to `auth.users`. The migration 
 - `20260908120300_vocabulary_catalog_exp2.sql` and `20260908120400_vocabulary_catalog_exp3.sql`: add 700 original editorial cards (100 per level) and 2,100 rules, bringing the catalog to 1,050 cards (150 per level) and 3,150 rules. Each batch uses a new stable content-key/UUID namespace and inserts only shared content.
 - `20260908120500_daily_study.sql`: adds the learner track default and persisted daily plans. `start_daily_session()` imports only the selected active catalog cards that are not already in the learner's collection, chooses them once with randomized ordering, and returns the remaining ordered queue. Due and fresh personal words are considered before catalog cards.
 - `20260909130000_adaptive_learner_ability.sql`: adds the per-user adaptive ability profile, auditable ability snapshots on review events, weighted level-aware catalog selection, and the profile privacy policy. It replaces `start_daily_session()` without changing the existing due-first and persisted-day contract.
+- `20260909150000_word_mastery_and_example_meaning.sql`: adds the full example translation snapshot, personal 0–100 word mastery, auditable mastery deltas, and updates the adaptive planner/review RPCs to carry them through the study flow.
+- `20260909150100_vocabulary_example_meanings.sql`: fills all 1,050 original catalog cards with Korean sentence meanings and rejects an incomplete catalog. The translations are a first-pass machine draft and remain editorially reviewable.
 
 The versioned source under [`supabase/catalog/expansion-v2`](../../supabase/catalog/expansion-v2/) contains 555 additional original editorial candidates for L1–L5. It is not part of the 1,050-card production baseline and is not imported until a reviewed forward-only migration is added.
 
@@ -38,7 +40,7 @@ A card is one learnable sense. `book` (책) and `book` (예약하다) have disti
 
 Each card carries a part of speech, L1–L7 level, editorial CEFR anchor/band, topic/domain/skill arrays, priority (higher first), optional corpus frequency, source, license/provenance, active flag and timestamps. `frequency_rank` is deliberately NULL for all starter cards: there is no measured corpus ranking. A non-null rank requires a named frequency source. Skills are content-use tags, not estimated subtest scores or a claim that audio exercises are implemented.
 
-Indexes cover active level/priority selection, normalized exact/prefix lookup, simple-token full-text search over term/meaning/example, topics, and domains. The `simple` full-text configuration supports token lookup, not Korean morphology or arbitrary substring search. Use `to_tsvector('simple', term || ' ' || meaning || ' ' || example)` for matching the search expression index; add trigram support only if substring search later needs it.
+Indexes cover active level/priority selection, normalized exact/prefix lookup, simple-token full-text search over term/meaning/example/example meaning, topics, and domains. The `simple` full-text configuration supports token lookup, not Korean morphology or arbitrary substring search. Use `to_tsvector('simple', term || ' ' || meaning || ' ' || example || ' ' || example_meaning)` for matching the search expression index; add trigram support only if substring search later needs it.
 
 Track rules use a composite key `(catalog_id, track_id)` with role, priority, positive weight, rationale and timestamps. Current rules are transparent editorial defaults. The weights are relative ranking multipliers, not probabilities or daily quotas. Each of the 1,050 cards has one rule for each of the three tracks (3,150 rules); optional cards are fallback candidates, not a requirement to study every level.
 
@@ -46,7 +48,9 @@ Track rules use a composite key `(catalog_id, track_id)` with role, priority, po
 
 `words.catalog_id` is nullable; `origin` defaults to `custom`. A check requires custom words to have no link and catalog words to have a link. A partial unique index on `(user_id, catalog_id)` prevents duplicate imports, including archived copies. Restore the existing personal card instead of inserting another copy.
 
-On future import, copy `term`, `meaning`, and `example` into `words` and initialize `note` separately. Later catalog edits never propagate to these personal fields. Existing personal update grants remain unchanged; provenance can be set at insert time but cannot be relinked through ordinary client updates. Existing rows become `custom` with a NULL catalog link without triggering a word version bump. The existing word trigger still increments versions for actual personal edits.
+On future import, copy `term`, `meaning`, `example`, and `example_meaning` into `words` and initialize `note` separately. Later catalog edits never propagate to these personal fields. A custom word may leave `example` and `example_meaning` empty; catalog cards always have both. Existing personal update grants allow editing the personal example meaning without changing shared content. Provenance can be set at insert time but cannot be relinked through ordinary client updates. Existing rows become `custom` with a NULL catalog link without triggering a word version bump. The existing word trigger still increments versions for actual personal edits.
+
+`review_state.mastery_score` is a user-facing 0–100 estimate for one word. It starts at 0 and is updated atomically with each review: clean typed correct `+15`, hint-assisted typed correct `+7`, choice correct `+5`, typed wrong `-20`, and self-rating good/again `+3`/`-12`, clamped to 0–100. The score is intentionally separate from `stage` (when to show the word again) and `user_ability` (which catalog level to recommend). `reviews = 0` is displayed as “평가 전”, not as a claim that the word is forgotten.
 
 Referenced catalog cards cannot be hard-deleted (`ON DELETE RESTRICT`). Retire them with `is_active=false`; personal snapshots and review history remain readable. A foreign key is an identity constraint, not active-card validation: `start_daily_session()` selects active cards inside the same security-definer transaction before copying them. The RPC is serialized per user, so concurrent starts cannot create two plans for the same local day.
 

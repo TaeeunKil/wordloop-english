@@ -75,7 +75,14 @@ export async function submitReview(input: ReviewInput): Promise<ActionResult<Rec
   if (error || !data) return { error: failure(error?.message) };
   revalidatePath("/dashboard"); revalidatePath("/stats");
   const ability = await client.from("user_ability").select("score,ability_level,confidence,sample_count").eq("user_id", user.id).maybeSingle();
-  const receipt = data as Receipt;
+  const rawReceipt = data as Receipt & { mastery_score?: unknown; mastery_delta?: unknown };
+  const masteryScore = Number(rawReceipt.mastery_score);
+  const masteryDelta = Number(rawReceipt.mastery_delta);
+  const receipt: Receipt = {
+    ...rawReceipt,
+    ...(Number.isFinite(masteryScore) ? { masteryScore } : {}),
+    ...(Number.isFinite(masteryDelta) ? { masteryDelta } : {}),
+  };
   return { data: ability.data ? { ...receipt, ability: mapAbility(ability.data) } : receipt };
 }
 export async function finishStudy(sessionId: string): Promise<ActionResult<true>> {

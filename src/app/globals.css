@@ -149,7 +149,7 @@ input:disabled, textarea:disabled { background: var(--surface-subtle); color: va
 .filters button { min-height: 46px; }
 .list-caption { display: flex; justify-content: space-between; gap: 1rem; padding: .8rem 0; color: var(--text-secondary); font-size: .75rem; }
 .word-list { border-top: 1px solid var(--text); }
-.word-row { display: grid; grid-template-columns: minmax(0, 1fr) 215px auto; gap: 1.8rem; padding: 1.5rem .5rem; border-bottom: 1px solid var(--line); transition: background-color 150ms; }
+.word-row { display: grid; grid-template-columns: minmax(0, 1fr) 270px auto; gap: 1.8rem; padding: 1.5rem .5rem; border-bottom: 1px solid var(--line); transition: background-color 150ms; }
 .word-row:hover, .word-row:focus-within { background: var(--surface); }
 .word-copy { min-width: 0; }
 .word-copy h2 { font-size: 1.35rem; font-weight: 600; margin-bottom: .25rem; overflow-wrap: anywhere; }
@@ -157,6 +157,12 @@ input:disabled, textarea:disabled { background: var(--surface-subtle); color: va
 .word-context { margin-top: .5rem; font-size: .875rem; }
 .word-context summary { color: var(--text-secondary); width: fit-content; }
 .word-context p { margin: .75rem 0; }
+.word-meta { display: grid; gap: 1rem; align-self: center; }
+.word-mastery { min-width: 0; }
+.mastery-heading { display: flex; justify-content: space-between; gap: 1rem; color: var(--text-secondary); font-size: .72rem; }
+.mastery-heading strong { color: var(--text); font-size: .85rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.word-mastery progress { margin: .45rem 0 .35rem; }
+.word-mastery p { margin: 0; }
 .word-dates { margin: 0; font-size: .72rem; align-self: center; color: var(--text-secondary); }
 .word-dates > div + div { margin-top: .65rem; }
 .word-dates dt { margin-bottom: .1rem; }
@@ -192,6 +198,8 @@ fieldset { min-width: 0; border: 0; margin: 0; padding: 0; display: grid; gap: 1
 .study-progress strong { font-size: 1.1rem; font-weight: 700; }
 .study-workspace > progress { margin-top: .8rem; }
 .study-prompt { min-height: 245px; padding: 3.25rem 0 2rem; }
+.study-sentence-meaning { max-width: 700px; margin: -.25rem 0 1.4rem; color: var(--text-secondary); font-size: 1.05rem; line-height: 1.65; }
+.study-sentence-meaning .small { margin-right: .5rem; }
 .cloze-sentence { max-width: 790px; margin: .75rem 0 1.4rem; font-size: clamp(1.65rem, 4vw, 2.9rem); font-weight: 600; line-height: 1.35; letter-spacing: -.035em; overflow-wrap: anywhere; }
 .cloze-blank, .cloze-input { display: inline-block; min-width: 4ch; margin-inline: .12em; padding: 0 .12em .06em; color: var(--text-muted); border: 0; border-bottom: 3px solid var(--accent); border-radius: 0; background: transparent; font: inherit; font-size: .76em; font-weight: 700; line-height: 1; letter-spacing: .02em; text-align: center; vertical-align: baseline; }
 .cloze-input { box-sizing: content-box; max-width: calc(100% - .5rem); color: var(--text); outline: none; }
@@ -277,7 +285,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .8rem; padding:
 @keyframes arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 1000px) {
   .site-footer { margin-inline: 32px; }
-  .word-row { grid-template-columns: minmax(0, 1fr) 190px; }
+  .word-row { grid-template-columns: minmax(0, 1fr) 230px; }
   .row-actions { grid-column: 1 / -1; }
   .activity-layout { gap: 2rem; }
 }
@@ -330,6 +338,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .8rem; padding:
   .filters label { min-width: 0; }
   .filters .text-link { width: 100%; }
   .word-row { grid-template-columns: 1fr; gap: .85rem; padding: 1.2rem .25rem; }
+  .word-meta { gap: .75rem; }
   .word-dates { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
   .word-dates > div + div { margin-top: 0; }
   .row-actions { grid-column: auto; }

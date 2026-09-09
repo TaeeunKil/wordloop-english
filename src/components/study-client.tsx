@@ -171,6 +171,7 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
     <div className="study-prompt" key={item.id}>
       <p className="eyebrow">문장의 빈칸을 채워 보세요</p>
       <ClozeSentence item={item} reveal={Boolean(feedback)} interactive={!feedback} answer={answer} onAnswerChange={setAnswer} inputRef={inputRef} disabled={locked} />
+      {item.example_meaning && <p className="study-sentence-meaning"><span className="small quiet">문장 뜻</span> {item.example_meaning}</p>}
     </div>
 
     {feedback ? <div className={`study-feedback ${feedback.correct === false ? "wrong" : feedback.correct === null ? "self-rated" : "correct"}`} key={feedback.id}>
@@ -178,7 +179,7 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
         <p className="feedback-label">{feedback.correct === null ? "스스로 확인한 응답을 기록했어요" : feedback.correct ? "정답이에요" : "아직 익숙하지 않은 표현이에요"}</p>
         <ClozeSentence item={item} reveal />
         <div className="feedback-answer-line"><span className="small quiet">정답</span><strong lang="en">{feedback.expected_answer}</strong><span className="feedback-divider" aria-hidden="true">·</span><span className="feedback-meaning-inline">{item.meaning}</span></div>
-        <p>다음 복습 <time dateTime={feedback.due_at}>{reviewDate(feedback.due_at, timeZone)}</time>{feedback.ability && <span className="small quiet"> · 현재 수준 L{feedback.ability.level}</span>}{feedback.correct === false && <span className="small quiet"> · 틀린 단어는 10분 뒤 다시 나와요</span>}</p>
+        <p>다음 복습 <time dateTime={feedback.due_at}>{reviewDate(feedback.due_at, timeZone)}</time>{feedback.masteryScore !== undefined && <span className="small quiet"> · 단어 숙련도 {feedback.masteryScore}%</span>}{feedback.ability && <span className="small quiet"> · 현재 수준 L{feedback.ability.level}</span>}{feedback.correct === false && <span className="small quiet"> · 틀린 단어는 10분 뒤 다시 나와요</span>}</p>
       </div>
       <button className="primary" ref={nextRef} onClick={next} disabled={pending}>{pending ? "마치는 중…" : index + 1 >= session.queue.length ? "학습 마치기 →" : "다음 문제 →"}</button>
     </div> : <>

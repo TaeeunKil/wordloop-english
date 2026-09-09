@@ -13,7 +13,13 @@ async function rows(sql: string) {
 async function start(user = uid) {
   await db.exec(`set local role authenticated; select set_config('request.jwt.claim.sub','${user}',true);`);
   const [{ plan }] = await rows("select public.start_daily_session() plan");
-  return plan as { session_id: string; queue: { id: string; term: string; version: number; state_version: number }[] };
+  return plan as {
+    session_id: string;
+    queue: {
+      id: string; term: string; version: number; state_version: number;
+      example_meaning: string; mastery_score: number; mastery_reviews: number;
+    }[];
+  };
 }
 
 describe("adaptive learner ability", () => {
@@ -41,6 +47,8 @@ describe("adaptive learner ability", () => {
       "20260908120500_daily_study.sql",
       "20260908120600_daily_continue.sql",
       "20260909130000_adaptive_learner_ability.sql",
+      "20260909150000_word_mastery_and_example_meaning.sql",
+      "20260909150100_vocabulary_example_meanings.sql",
     ]) await db.exec(readFileSync(`supabase/migrations/${migration}`, "utf8"));
   }, 30_000);
   beforeEach(async () => { await db.exec("begin"); });
@@ -105,5 +113,36 @@ describe("adaptive learner ability", () => {
     await db.exec(`reset role; insert into public.user_ability(user_id) values ('${uid}');`);
     await db.exec(`set local role authenticated; select set_config('request.jwt.claim.sub','${otherUid}',true);`);
     expect(await rows("select * from public.user_ability")).toEqual([]);
+  });
+
+  it("copies sentence meanings and records personal word mastery", async () => {
+    await db.exec(`insert into public.user_settings(user_id,daily_goal) values ('${uid}',2);`);
+    const plan = await start();
+    expect(plan.queue[0]).toMatchObject({ example_meaning: expect.any(String), mastery_score: 0, mastery_reviews: 0 });
+    expect(plan.queue[0].example_meaning.length).toBeGreaterThan(0);
+    expect(await rows("select count(*)::int n from public.vocabulary_catalog where length(btrim(example_meaning)) = 0"))
+      .toEqual([{ n: 0 }]);
+
+    const correct = plan.queue[0];
+    const wrong = plan.queue[1];
+    await db.exec(`select public.submit_review(
+      '30000000-0000-4000-8000-000000000011','${plan.session_id}','${correct.id}',${correct.version},${correct.state_version},
+      'typed','${correct.term}',false,null
+    )`);
+    await db.exec(`select public.submit_review(
+      '30000000-0000-4000-8000-000000000012','${plan.session_id}','${wrong.id}',${wrong.version},${wrong.state_version},
+      'typed','not-the-answer',false,null
+    )`);
+
+    expect(await rows(`select word_id,mastery_score,reviews from public.review_state where user_id='${uid}' order by word_id`))
+      .toEqual([
+        { word_id: correct.id, mastery_score: 15, reviews: 1 },
+        { word_id: wrong.id, mastery_score: 0, reviews: 1 },
+      ].sort((a, b) => a.word_id.localeCompare(b.word_id)));
+    expect(await rows(`select mastery_before,mastery_after,mastery_delta from public.review_events where user_id='${uid}' order by id`))
+      .toEqual([
+        { mastery_before: 0, mastery_after: 15, mastery_delta: 15 },
+        { mastery_before: 0, mastery_after: 0, mastery_delta: 0 },
+      ]);
   });
 });

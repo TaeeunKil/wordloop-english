@@ -16,8 +16,8 @@ export default async function WordsPage({ searchParams }: { searchParams: Promis
   if (search.error || settings.error) throw new Error("Unable to load words");
   const result = search.data as { total: number; items: Word[] };
   const ids = result.items.map(word => word.id);
-  const states = ids.length ? await client.from("review_state").select("word_id,last_reviewed_at,due_at").eq("user_id", user.id).in("word_id", ids) : { data: [], error: null };
-  if (states.error) throw new Error("Unable to load review dates");
+  const states = ids.length ? await client.from("review_state").select("word_id,last_reviewed_at,due_at,mastery_score,reviews").eq("user_id", user.id).in("word_id", ids) : { data: [], error: null };
+  if (states.error) throw new Error("Unable to load review state");
   const timeZone = settings.data?.time_zone ?? "Asia/Seoul";
   const pageUrl = (p: number) => "/words?" + new URLSearchParams({ q, archived: String(archived), page: String(p) });
   return <>

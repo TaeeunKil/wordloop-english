@@ -13,6 +13,7 @@ test-results/
 supabase/.temp/
 supabase/.branches/
 work/
+.tmp/
 # Original user-owned snapshots may contain personal data. Local recovery only.
 /archive/legacy/
 /backups/

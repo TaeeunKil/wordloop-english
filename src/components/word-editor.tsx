@@ -6,7 +6,15 @@ import { archiveWord, saveWord } from "@/app/actions";
 import { reviewDate } from "@/lib/calendar";
 import type { Word } from "@/lib/types";
 
-type ReviewState = { word_id: string; last_reviewed_at: string | null; due_at: string };
+type ReviewState = { word_id: string; last_reviewed_at: string | null; due_at: string; mastery_score: number; reviews: number };
+
+function masteryLabel(state?: ReviewState) {
+  if (!state || state.reviews === 0) return "아직 평가 전";
+  if (state.mastery_score >= 85) return "안정적으로 기억 중";
+  if (state.mastery_score >= 60) return "기억이 자리 잡는 중";
+  if (state.mastery_score >= 30) return "익숙해지는 중";
+  return "아직 익숙하지 않음";
+}
 export function WordLibrary({ words, states, timeZone, total, query, archived }: {
   words: Word[]; states: ReviewState[]; timeZone: string; total: number; query: string; archived: boolean;
 }) {
@@ -59,9 +67,12 @@ export function WordLibrary({ words, states, timeZone, total, query, archived }:
       const state = states.find(state => state.word_id === word.id);
       return <article className="word-row" key={word.id}>
         <div className="word-copy"><h2 lang="en">{word.term}</h2><p>{word.meaning}</p>
-          {(word.example || word.note) && <details className="word-context"><summary aria-label={word.term + " 예문과 메모"}>예문·메모</summary>{word.example && <p lang="en">{word.example}</p>}{word.note && <p className="quiet">{word.note}</p>}</details>}
+          {(word.example || word.example_meaning || word.note) && <details className="word-context"><summary aria-label={word.term + " 예문과 메모"}>예문·메모</summary>{word.example && <p lang="en">{word.example}</p>}{word.example_meaning && <p>{word.example_meaning}</p>}{word.note && <p className="quiet">{word.note}</p>}</details>}
         </div>
-        <dl className="word-dates"><div><dt>마지막 복습</dt><dd>{state?.last_reviewed_at ? <time dateTime={state.last_reviewed_at}>{reviewDate(state.last_reviewed_at, timeZone)}</time> : "아직 학습 전"}</dd></div><div><dt>다음 복습</dt><dd>{archived ? "보관 중 · 학습 제외" : state?.due_at ? <time dateTime={state.due_at}>{reviewDate(state.due_at, timeZone)}</time> : "첫 학습 대기"}</dd></div></dl>
+        <div className="word-meta">
+          <div className="word-mastery"><div className="mastery-heading"><span>단어 숙련도</span><strong>{state?.reviews ? `${state.mastery_score}%` : "평가 전"}</strong></div><progress value={state?.reviews ? state.mastery_score : 0} max={100} aria-label={`${word.term} 단어 숙련도`} /><p className="small quiet">{masteryLabel(state)}</p></div>
+          <dl className="word-dates"><div><dt>마지막 복습</dt><dd>{state?.last_reviewed_at ? <time dateTime={state.last_reviewed_at}>{reviewDate(state.last_reviewed_at, timeZone)}</time> : "아직 학습 전"}</dd></div><div><dt>다음 복습</dt><dd>{archived ? "보관 중 · 학습 제외" : state?.due_at ? <time dateTime={state.due_at}>{reviewDate(state.due_at, timeZone)}</time> : "첫 학습 대기"}</dd></div></dl>
+        </div>
         <div className="row-actions"><button onClick={event => open(word, event.currentTarget)} aria-label={word.term + " 수정"} disabled={pending}>수정</button><button className="link-button" onClick={() => toggleArchive(word)} aria-label={word.term + (word.archived ? " 복원" : " 보관")} disabled={pending}>{word.archived ? "복원" : "보관"}</button></div>
       </article>;
     }) : <div className="empty"><p className="eyebrow">YOUR WORDS, YOUR PACE</p><h2>{query ? "일치하는 단어가 없어요." : archived ? "보관함이 비어 있어요." : "첫 단어를 남겨보세요."}</h2>
@@ -71,7 +82,7 @@ export function WordLibrary({ words, states, timeZone, total, query, archived }:
     {editing !== undefined && <dialog ref={dialog} className="editor-dialog" aria-labelledby="editor-title" aria-describedby="editor-description"
       onCancel={event => { event.preventDefault(); if (!pending) close(); }} onClose={() => { if (editing !== undefined) setEditing(undefined); }}>
       <div className="dialog-heading"><div><p className="eyebrow">{editing ? "EDIT WORD" : "NEW WORD"}</p><h2 id="editor-title">{editing ? "단어 다듬기" : "새 단어 담기"}</h2></div><button type="button" className="link-button" aria-label="단어 편집 닫기" onClick={close} disabled={pending}>닫기 ×</button></div>
-      <p id="editor-description" className="quiet">단어와 뜻은 필수입니다. 나머지는 나중에 채워도 좋아요.</p>
+      <p id="editor-description" className="quiet">단어와 뜻은 필수입니다. 예문 뜻은 문장 전체 의미를 적어두면 좋아요.</p>
       <form onSubmit={event => {
         event.preventDefault();
         const values = Object.fromEntries(new FormData(event.currentTarget));
@@ -88,6 +99,7 @@ export function WordLibrary({ words, states, timeZone, total, query, archived }:
           <label htmlFor="edit-term">영어 단어 또는 표현 <span aria-hidden="true">*</span><input id="edit-term" name="term" required maxLength={200} defaultValue={editing?.term} autoComplete="off" autoCapitalize="none" spellCheck={false} autoFocus /></label>
           <label htmlFor="edit-meaning">뜻 <span aria-hidden="true">*</span><textarea id="edit-meaning" name="meaning" required maxLength={2000} defaultValue={editing?.meaning} rows={2} /></label>
           <label htmlFor="edit-example">예문 <span className="optional">선택</span><textarea id="edit-example" name="example" maxLength={3000} defaultValue={editing?.example} rows={2} /></label>
+          <label htmlFor="edit-example-meaning">예문 뜻 <span className="optional">선택</span><textarea id="edit-example-meaning" name="example_meaning" maxLength={3000} defaultValue={editing?.example_meaning} rows={2} /></label>
           <label htmlFor="edit-note">메모 <span className="optional">선택</span><textarea id="edit-note" name="note" maxLength={3000} defaultValue={editing?.note} rows={2} /></label>
           {error && <p id="editor-error" className="notice error-notice" role="alert">{error}</p>}
           <div className="dialog-actions"><button type="button" onClick={close}>취소</button><button className="primary" type="submit">{pending ? "저장 중…" : "저장하기"}</button></div>

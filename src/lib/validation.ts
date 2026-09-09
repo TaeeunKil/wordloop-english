@@ -3,6 +3,7 @@ export const wordSchema = z.object({
   term: z.string().trim().min(1).max(200),
   meaning: z.string().trim().min(1).max(2000),
   example: z.string().trim().max(3000),
+  example_meaning: z.string().trim().max(3000).default(""),
   note: z.string().trim().max(3000),
 });
 export const reviewSchema = z.object({

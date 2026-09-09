@@ -15,3 +15,4 @@
 - [ADR-0002: shared vocabulary catalog and difficulty](decisions/0002-shared-vocabulary-catalog.md)
 - [ADR-0003: vocabulary quality and daily review scheduling](decisions/0003-vocabulary-quality-and-review-scheduling.md)
 - [ADR-0006: adaptive learner ability](decisions/0006-adaptive-learner-ability.md)
+- [ADR-0007: sentence meaning and per-word mastery](decisions/0007-word-mastery-and-example-meaning.md)
