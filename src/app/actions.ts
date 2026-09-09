@@ -4,7 +4,8 @@ import { revalidatePath } from "next/cache";
 import { getConfig } from "@/lib/env";
 import { requireUser, serverClient } from "@/lib/supabase/server";
 import { reviewSchema, wordSchema } from "@/lib/validation";
-import type { ActionResult, Receipt, ReviewInput, StudyItem, Word } from "@/lib/types";
+import { mapAbility } from "@/lib/ability";
+import type { AbilityProfile, ActionResult, Receipt, ReviewInput, StudyItem, Word } from "@/lib/types";
 
 function failure(message?: string) {
   if (message?.includes("IDEMPOTENCY_CONFLICT")) return "같은 응답 ID의 내용이 다릅니다. 저장 상태를 확인한 뒤 새로 불러오세요.";
@@ -51,20 +52,20 @@ export async function archiveWord(id: string, version: number, archived: boolean
   revalidatePath("/words"); revalidatePath("/dashboard");
   return { data: data as Word };
 }
-export async function startStudy(): Promise<ActionResult<{ sessionId: string; queue: StudyItem[]; alternatives: string[]; day: string; trackCode: string }>> {
+export async function startStudy(): Promise<ActionResult<{ sessionId: string; queue: StudyItem[]; alternatives: string[]; day: string; trackCode: string; ability: AbilityProfile }>> {
   const { client, user } = await requireUser();
   const { data, error } = await client.rpc("start_daily_session");
   if (error || !data) return { error: failure(error?.message) };
-  const plan = data as { session_id?: string; queue?: StudyItem[]; day?: string; track_code?: string };
+  const plan = data as { session_id?: string; queue?: StudyItem[]; day?: string; track_code?: string; ability?: unknown };
   if (!plan.session_id || !plan.day || !plan.track_code || !Array.isArray(plan.queue)) return { error: "오늘의 학습 목록을 불러오지 못했습니다. 다시 시도하세요." };
   const words = await client.from("words").select("term").eq("user_id", user.id).eq("archived", false).order("id").limit(100);
   if (words.error) return { error: "학습 선택지를 불러오지 못했습니다. 다시 시도하세요." };
-  return { data: { sessionId: plan.session_id, queue: plan.queue, day: plan.day, trackCode: plan.track_code, alternatives: (words.data ?? []).map(w => w.term as string) } };
+  return { data: { sessionId: plan.session_id, queue: plan.queue, day: plan.day, trackCode: plan.track_code, alternatives: (words.data ?? []).map(w => w.term as string), ability: mapAbility(plan.ability) } };
 }
 export async function submitReview(input: ReviewInput): Promise<ActionResult<Receipt>> {
   const parsed = reviewSchema.safeParse(input);
   if (!parsed.success) return { error: "응답 형식을 확인하세요." };
-  const { client } = await requireUser();
+  const { client, user } = await requireUser();
   const p = parsed.data;
   const { data, error } = await client.rpc("submit_review", {
     p_id: p.id, p_session_id: p.session_id, p_word_id: p.word_id,
@@ -73,7 +74,9 @@ export async function submitReview(input: ReviewInput): Promise<ActionResult<Rec
   });
   if (error || !data) return { error: failure(error?.message) };
   revalidatePath("/dashboard"); revalidatePath("/stats");
-  return { data: data as Receipt };
+  const ability = await client.from("user_ability").select("score,ability_level,confidence,sample_count").eq("user_id", user.id).maybeSingle();
+  const receipt = data as Receipt;
+  return { data: ability.data ? { ...receipt, ability: mapAbility(ability.data) } : receipt };
 }
 export async function finishStudy(sessionId: string): Promise<ActionResult<true>> {
   const { client } = await requireUser();

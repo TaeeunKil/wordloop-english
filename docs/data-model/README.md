@@ -13,6 +13,7 @@
 | `catalog_track_rules` | per-card/per-track core, stretch or optional relevance |
 | `study_days` | one persisted learner-local plan per calendar day and learning track |
 | `study_day_items` | ordered daily word snapshots, including due/fresh/random source and completion |
+| `user_ability` | personal adaptive score, level, confidence and evidence count |
 
 The original five tables carry an ownership path to `auth.users`. The migration in `supabase/migrations/202609080001_wordloop_v1.sql` enables RLS, adds least-privilege grants, and defines the session/review/statistics functions. Those functions and ownership policies are unchanged by the catalog addition.
 
@@ -23,8 +24,11 @@ The original five tables carry an ownership path to `auth.users`. The migration 
 - `20260908120200_vocabulary_catalog_exp1.sql`: adds 175 original editorial cards (25 per level) and 525 rules, bringing the catalog to 350 cards (50 per level) and 1,050 rules. Uses `wl-exp1-` keys, provenance version `exp1`, and deterministic `e1000000-0000-4000-8000-` UUIDs followed by a two-digit level and ten-digit sequence, verified disjoint from all v1 IDs. Inserts only new shared cards/rules; existing migrations, catalog rows and personal data are preserved.
 - `20260908120300_vocabulary_catalog_exp2.sql` and `20260908120400_vocabulary_catalog_exp3.sql`: add 700 original editorial cards (100 per level) and 2,100 rules, bringing the catalog to 1,050 cards (150 per level) and 3,150 rules. Each batch uses a new stable content-key/UUID namespace and inserts only shared content.
 - `20260908120500_daily_study.sql`: adds the learner track default and persisted daily plans. `start_daily_session()` imports only the selected active catalog cards that are not already in the learner's collection, chooses them once with randomized ordering, and returns the remaining ordered queue. Due and fresh personal words are considered before catalog cards.
+- `20260909130000_adaptive_learner_ability.sql`: adds the per-user adaptive ability profile, auditable ability snapshots on review events, weighted level-aware catalog selection, and the profile privacy policy. It replaces `start_daily_session()` without changing the existing due-first and persisted-day contract.
 
 The versioned source under [`supabase/catalog/expansion-v2`](../../supabase/catalog/expansion-v2/) contains 555 additional original editorial candidates for L1–L5. It is not part of the 1,050-card production baseline and is not imported until a reviewed forward-only migration is added.
+
+`user_ability` is a per-user summary and never changes the shared difficulty assigned to a card. `score` is an internal 0–1000 adaptive value mapped to `ability_level` L1–L7. `confidence` reaches 100% after 20 scored responses; self-ratings do not increase the evidence count. The four ability snapshot columns on `review_events` make each change auditable while preserving the append-only event history.
 
 Migration history is forward-only. Never edit already-applied migrations to refresh content. Add a new migration using the stable `content_key`/ID to update an existing sense; give a different sense a new key. Seed IDs are deterministically derived from permanent version/level/sequence keys. They must not be recomputed when a card changes difficulty. The sequence is not a frequency ranking.
 

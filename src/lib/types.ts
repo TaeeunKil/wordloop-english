@@ -9,7 +9,8 @@ export type ReviewInput = {
   id: string; session_id: string; word_id: string; word_version: number; state_version: number;
   mode: ReviewMode; answer: string; hint_used: boolean; rating: "good" | "again" | null;
 };
-export type Receipt = { id: string; correct: boolean | null; expected_answer: string; stage: number; due_at: string; reviewed_at: string };
+export type AbilityProfile = { score: number; level: number; confidence: number; sampleCount: number };
+export type Receipt = { id: string; correct: boolean | null; expected_answer: string; stage: number; due_at: string; reviewed_at: string; ability?: AbilityProfile };
 export type Stats = {
   total: number; active_words: number; due_words: number; fresh_words: number;
   typed_total: number; typed_correct: number; assisted_total: number; assisted_correct: number;

@@ -7,8 +7,9 @@ import type { Receipt, ReviewInput, StudyItem } from "@/lib/types";
 import { choiceOptions } from "@/lib/validation";
 import { reviewDate } from "@/lib/calendar";
 import { makeClozeParts } from "@/lib/study";
+import type { AbilityProfile } from "@/lib/types";
 
-type Session = { id: string; queue: StudyItem[]; alternatives: string[]; day: string; trackCode: string };
+type Session = { id: string; queue: StudyItem[]; alternatives: string[]; day: string; trackCode: string; ability: AbilityProfile };
 
 type ClozeSentenceProps = {
   item: StudyItem;
@@ -89,7 +90,7 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
         if (result.error || !result.data) setError(result.error ?? "학습 목록을 불러오지 못했습니다.");
         else {
           const data = result.data;
-          setSession({ id: data.sessionId, queue: data.queue, alternatives: data.alternatives, day: data.day, trackCode: data.trackCode });
+          setSession({ id: data.sessionId, queue: data.queue, alternatives: data.alternatives, day: data.day, trackCode: data.trackCode, ability: data.ability });
           setIndex(0); setAnswer(""); setHint(false); setFeedback(null); setRequest(null); setCompleted(null);
           setOptions(data.queue[0] ? choiceOptions(data.queue[0].term, data.alternatives) : []);
         }
@@ -104,7 +105,11 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
       try {
         const result = await submitReview(payload);
         if (result.error || !result.data) setError(result.error ?? "응답을 저장하지 못했습니다.");
-        else { setFeedback(result.data); setRequest(null); }
+        else {
+          setFeedback(result.data);
+          setRequest(null);
+          if (result.data.ability) setSession(current => current ? { ...current, ability: result.data.ability as AbilityProfile } : current);
+        }
       } catch { setError("저장 여부를 확인하지 못했습니다. 연결을 확인한 뒤 같은 응답을 재시도하세요."); }
     });
   }
@@ -160,7 +165,7 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
 
   const locked = pending || Boolean(request);
   return <section className="study-workspace" aria-busy={pending}>
-    <div className="study-progress"><span>오늘의 학습 <strong>{String(index + 1).padStart(2, "0")}</strong> <span className="quiet">/ {String(session.queue.length).padStart(2, "0")}</span></span><span className="small quiet">{item.daily_source === "catalog_random" ? "새 단어" : item.due_at ? `복습 단계 ${item.stage}` : "처음 만나는 단어"}</span></div>
+    <div className="study-progress"><span>오늘의 학습 <strong>{String(index + 1).padStart(2, "0")}</strong> <span className="quiet">/ {String(session.queue.length).padStart(2, "0")}</span></span><span className="small quiet">L{session.ability.level} 적응 중 · {item.daily_source === "catalog_random" ? "새 단어" : item.due_at ? `복습 단계 ${item.stage}` : "처음 만나는 단어"}</span></div>
     <progress value={index + (feedback ? 1 : 0)} max={session.queue.length} aria-label="이번 학습에서 저장한 응답" />
 
     <div className="study-prompt" key={item.id}>
@@ -175,7 +180,7 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
         <ClozeSentence item={item} reveal />
         <div className="feedback-answer-line"><span className="small quiet">정답</span><strong lang="en">{feedback.expected_answer}</strong><span className="feedback-divider" aria-hidden="true">·</span><span className="feedback-meaning-inline">{item.meaning}</span></div>
         {feedback.correct === false && <p className="feedback-user-answer quiet"><span className="small quiet">내 답</span> <span lang="en">{answer || "입력하지 않음"}</span></p>}
-        <p>다음 복습 <time dateTime={feedback.due_at}>{reviewDate(feedback.due_at, timeZone)}</time>{feedback.correct === false && <span className="small quiet"> · 틀린 단어는 10분 뒤 다시 나와요</span>}</p>
+        <p>다음 복습 <time dateTime={feedback.due_at}>{reviewDate(feedback.due_at, timeZone)}</time>{feedback.ability && <span className="small quiet"> · 현재 수준 L{feedback.ability.level}</span>}{feedback.correct === false && <span className="small quiet"> · 틀린 단어는 10분 뒤 다시 나와요</span>}</p>
       </div>
       <button className="primary" ref={nextRef} onClick={next} disabled={pending}>{pending ? "마치는 중…" : index + 1 >= session.queue.length ? "학습 마치기 →" : "다음 문제 →"}</button>
     </div> : <>

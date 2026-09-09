@@ -1,17 +1,20 @@
 import Link from "next/link";
 import { requireUser } from "@/lib/supabase/server";
 import { currentStreak, dayKey } from "@/lib/calendar";
+import { mapAbility } from "@/lib/ability";
 import type { Stats, Word } from "@/lib/types";
 
 export default async function Dashboard() {
   const { client, user } = await requireUser();
-  const [result, settings, recent] = await Promise.all([
+  const [result, settings, recent, ability] = await Promise.all([
     client.rpc("study_stats"),
     client.from("user_settings").select("daily_goal,time_zone").eq("user_id", user.id).maybeSingle(),
     client.from("words").select("id,term,meaning").eq("user_id", user.id).eq("archived", false).order("created_at", { ascending: false }).limit(4),
+    client.from("user_ability").select("score,ability_level,confidence,sample_count").eq("user_id", user.id).maybeSingle(),
   ]);
-  if (result.error || settings.error || recent.error) throw new Error("Unable to load dashboard");
+  if (result.error || settings.error || recent.error || ability.error) throw new Error("Unable to load dashboard");
   const stats = result.data as Stats;
+  const profile = mapAbility(ability.data);
   const goal = settings.data?.daily_goal ?? 20;
   const timeZone = settings.data?.time_zone ?? "Asia/Seoul";
   const today = dayKey(new Date(), timeZone);
@@ -32,6 +35,10 @@ export default async function Dashboard() {
       <p className="quiet">{count >= goal ? "오늘의 목표를 채웠어요. 남은 단어도 이어갈 수 있습니다." : `${Math.max(0, goal - count)}번 더 떠올리면 오늘의 목표에 도착해요.`}</p>
       <Link href="/stats" className="text-link">학습 기록 보기 →</Link>
     </div></section>
+    <section className="ability-summary" aria-labelledby="ability-heading"><div>
+      <p className="eyebrow">ADAPTIVE LEVEL</p><h2 id="ability-heading">현재 WordLoop 수준 <strong>L{profile.level}</strong></h2>
+      <p className="quiet">{profile.sampleCount ? `직접 풀어 본 ${profile.sampleCount}회의 결과를 바탕으로 다음 단어 난이도를 조절합니다.` : "처음에는 L4를 기준으로 시작하고, 직접 풀어 본 결과가 쌓이면 자동으로 조절합니다."}</p>
+    </div><div className="ability-meter"><div className="ability-meter-label"><span>난이도 적응 신뢰도</span><span>{Math.round(profile.confidence * 100)}% · {profile.sampleCount}회</span></div><progress value={profile.confidence * 100} max="100" aria-label={`난이도 적응 신뢰도 ${Math.round(profile.confidence * 100)}퍼센트`} /><p className="small quiet">정답을 직접 입력한 기록에 가장 큰 가중치를 둡니다.</p></div></section>
     <dl className="metrics"><div><dt>연속 학습 · 최근 30일 내</dt><dd>{currentStreak(stats.days, today)}<small>일</small></dd></div><div><dt>학습 중인 단어</dt><dd>{stats.active_words}<small>개</small></dd></div><div><dt>오늘 완료한 응답</dt><dd>{count}<small>회</small></dd></div></dl>
     <section><div className="section-heading"><h2>최근 담은 단어</h2><Link className="text-link" href="/words">단어장 전체 →</Link></div>
       {recent.data?.length ? <ul className="recent-words">{(recent.data as Pick<Word, "id" | "term" | "meaning">[]).map(word => <li key={word.id}><Link href={"/words?" + new URLSearchParams({ q: word.term })}><strong lang="en">{word.term}</strong><span>{word.meaning}</span><span aria-hidden="true">↗</span></Link></li>)}</ul>
