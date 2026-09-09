@@ -161,7 +161,9 @@ input:disabled, textarea:disabled { background: var(--surface-subtle); color: va
 .word-mastery { min-width: 0; }
 .mastery-heading { display: flex; justify-content: space-between; gap: 1rem; color: var(--text-secondary); font-size: .72rem; }
 .mastery-heading strong { color: var(--text); font-size: .85rem; font-weight: 600; font-variant-numeric: tabular-nums; }
-.word-mastery progress { margin: .45rem 0 .35rem; }
+.mastery-dot-bar { display: flex; align-items: center; gap: .22rem; min-height: 1.1rem; margin: .4rem 0 .3rem; }
+.mastery-dot { width: .42rem; height: .42rem; flex: 0 0 .42rem; border-radius: 999px; background: var(--surface-strong); }
+.mastery-dot.is-filled { background: var(--accent); animation: mastery-dot-on 500ms var(--dot-delay) ease-out both; }
 .word-mastery p { margin: 0; }
 .word-dates { margin: 0; font-size: .72rem; align-self: center; color: var(--text-secondary); }
 .word-dates > div + div { margin-top: .65rem; }
@@ -283,6 +285,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .8rem; padding:
 .loading-line { display: block; width: 100%; max-width: 280px; height: 3px; background: var(--line); }
 .loading-line::after { content: ""; display: block; height: 3px; width: 35%; background: var(--accent); }
 @keyframes arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes mastery-dot-on { from { opacity: .35; transform: scale(.6); box-shadow: 0 0 0 0 var(--accent-soft); } to { opacity: 1; transform: scale(1); box-shadow: 0 0 0 3px transparent; } }
 @media (max-width: 1000px) {
   .site-footer { margin-inline: 32px; }
   .word-row { grid-template-columns: minmax(0, 1fr) 230px; }

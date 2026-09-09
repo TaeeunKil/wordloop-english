@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useRef, useState, useTransition } from "react";
+import type { CSSProperties } from "react";
 import { useRouter } from "next/navigation";
 import { archiveWord, saveWord } from "@/app/actions";
 import { reviewDate } from "@/lib/calendar";
@@ -14,6 +15,16 @@ function masteryLabel(state?: ReviewState) {
   if (state.mastery_score >= 60) return "기억이 자리 잡는 중";
   if (state.mastery_score >= 30) return "익숙해지는 중";
   return "아직 익숙하지 않음";
+}
+
+function masteryDots(score: number) {
+  const filled = Math.round(Math.max(0, Math.min(100, score)) / 100 * 20);
+  return Array.from({ length: 20 }, (_, index) => <span
+    key={index}
+    className={`mastery-dot ${index < filled ? "is-filled" : ""}`}
+    aria-hidden="true"
+    style={{ "--dot-delay": `${index * 18}ms` } as CSSProperties}
+  />);
 }
 export function WordLibrary({ words, states, timeZone, total, query, archived }: {
   words: Word[]; states: ReviewState[]; timeZone: string; total: number; query: string; archived: boolean;
@@ -70,7 +81,7 @@ export function WordLibrary({ words, states, timeZone, total, query, archived }:
           {(word.example || word.example_meaning || word.note) && <details className="word-context"><summary aria-label={word.term + " 예문과 메모"}>예문·메모</summary>{word.example && <p lang="en">{word.example}</p>}{word.example_meaning && <p>{word.example_meaning}</p>}{word.note && <p className="quiet">{word.note}</p>}</details>}
         </div>
         <div className="word-meta">
-          <div className="word-mastery"><div className="mastery-heading"><span>단어 숙련도</span><strong>{state?.reviews ? `${state.mastery_score}%` : "평가 전"}</strong></div><progress value={state?.reviews ? state.mastery_score : 0} max={100} aria-label={`${word.term} 단어 숙련도`} /><p className="small quiet">{masteryLabel(state)}</p></div>
+          <div className="word-mastery"><div className="mastery-heading"><span>단어 숙련도</span><strong>{state?.reviews ? `${state.mastery_score}/100` : "평가 전"}</strong></div><div className="mastery-dot-bar" role="progressbar" aria-label={`${word.term} 단어 숙련도`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={state?.reviews ? state.mastery_score : 0} aria-valuetext={state?.reviews ? `${state.mastery_score}/100 · ${masteryLabel(state)}` : "평가 전"}>{masteryDots(state?.reviews ? state.mastery_score : 0)}</div><p className="small quiet">{masteryLabel(state)}</p></div>
           <dl className="word-dates"><div><dt>마지막 복습</dt><dd>{state?.last_reviewed_at ? <time dateTime={state.last_reviewed_at}>{reviewDate(state.last_reviewed_at, timeZone)}</time> : "아직 학습 전"}</dd></div><div><dt>다음 복습</dt><dd>{archived ? "보관 중 · 학습 제외" : state?.due_at ? <time dateTime={state.due_at}>{reviewDate(state.due_at, timeZone)}</time> : "첫 학습 대기"}</dd></div></dl>
         </div>
         <div className="row-actions"><button onClick={event => open(word, event.currentTarget)} aria-label={word.term + " 수정"} disabled={pending}>수정</button><button className="link-button" onClick={() => toggleArchive(word)} aria-label={word.term + (word.archived ? " 복원" : " 보관")} disabled={pending}>{word.archived ? "복원" : "보관"}</button></div>
