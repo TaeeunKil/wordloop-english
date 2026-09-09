@@ -10,14 +10,48 @@ import { makeClozeParts } from "@/lib/study";
 
 type Session = { id: string; queue: StudyItem[]; alternatives: string[]; day: string; trackCode: string };
 
-function ClozeSentence({ item, reveal = false }: { item: StudyItem; reveal?: boolean }) {
+type ClozeSentenceProps = {
+  item: StudyItem;
+  reveal?: boolean;
+  interactive?: boolean;
+  answer?: string;
+  onAnswerChange?: (value: string) => void;
+  inputRef?: { current: HTMLInputElement | null };
+  disabled?: boolean;
+};
+
+function InlineAnswerInput({ item, answer = "", onAnswerChange, inputRef, disabled = false }: Omit<ClozeSentenceProps, "reveal" | "interactive">) {
+  const answerWidth = Math.max(4, item.term.length + 1);
+  return <input
+    ref={inputRef}
+    className="cloze-input"
+    name="answer"
+    aria-label="빈칸에 들어갈 표현"
+    aria-describedby="answer-help"
+    value={answer}
+    onChange={event => onAnswerChange?.(event.target.value)}
+    form="study-answer-form"
+    autoComplete="off"
+    autoCapitalize="none"
+    spellCheck={false}
+    maxLength={2000}
+    disabled={disabled}
+    style={{ width: `${answerWidth}ch` }}
+  />;
+}
+
+function ClozeSentence({ item, reveal = false, interactive = false, answer, onAnswerChange, inputRef, disabled = false }: ClozeSentenceProps) {
   const { parts, matched } = makeClozeParts(item.example, item.term);
   if (!item.example.trim() || !matched) {
-    return <p className="cloze-fallback" lang="en">이 단어가 들어갈 자연스러운 예문을 준비 중이에요.</p>;
+    return <p className="cloze-fallback">이 단어의 영어 표현을 떠올려 보세요. {interactive && <InlineAnswerInput item={item} answer={answer} onAnswerChange={onAnswerChange} inputRef={inputRef} disabled={disabled} />}</p>;
   }
   return <p className="cloze-sentence" lang="en" aria-label={reveal ? item.example : "목표 단어가 가려진 영어 예문"}>
     {parts.map((part, index) => part.kind === "blank"
-      ? <span className={`cloze-blank${reveal ? " revealed" : ""}`} key={`${part.kind}-${index}`}>{reveal ? item.term : "____"}</span>
+      ? reveal
+        ? <span className="cloze-blank revealed" key={`${part.kind}-${index}`}>{item.term}</span>
+        : interactive
+          ? <InlineAnswerInput key={`${part.kind}-${index}`} item={item} answer={answer} onAnswerChange={onAnswerChange} inputRef={inputRef} disabled={disabled} />
+          : <span className="cloze-blank" key={`${part.kind}-${index}`}>____</span>
       : <span key={`${part.kind}-${index}`}>{part.value}</span>)}
   </p>;
 }
@@ -131,7 +165,7 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
 
     <div className="study-prompt" key={item.id}>
       <p className="eyebrow">문장의 빈칸을 채워 보세요</p>
-      <ClozeSentence item={item} reveal={Boolean(feedback)} />
+      <ClozeSentence item={item} reveal={Boolean(feedback)} interactive={!feedback} answer={answer} onAnswerChange={setAnswer} inputRef={inputRef} disabled={locked} />
       <p className="study-translation"><span className="small quiet">뜻</span> {item.meaning}</p>
     </div>
 
@@ -139,17 +173,13 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
       <div role="status" aria-live="polite">
         <p className="feedback-label">{feedback.correct === null ? "스스로 확인한 응답을 기록했어요" : feedback.correct ? "정답이에요" : "아직 익숙하지 않은 표현이에요"}</p>
         <ClozeSentence item={item} reveal />
-        <div className="feedback-answer"><span className="small quiet">정답</span><strong lang="en">{feedback.expected_answer}</strong></div>
-        {feedback.correct === false && <p className="quiet">내 답: <span lang="en">{answer}</span></p>}
-        <p className="feedback-meaning"><span className="small quiet">뜻</span> {item.meaning}</p>
+        <div className="feedback-answer-line"><span className="small quiet">정답</span><strong lang="en">{feedback.expected_answer}</strong><span className="feedback-divider" aria-hidden="true">·</span><span className="feedback-meaning-inline">{item.meaning}</span></div>
+        {feedback.correct === false && <p className="feedback-user-answer quiet"><span className="small quiet">내 답</span> <span lang="en">{answer || "입력하지 않음"}</span></p>}
         <p>다음 복습 <time dateTime={feedback.due_at}>{reviewDate(feedback.due_at, timeZone)}</time>{feedback.correct === false && <span className="small quiet"> · 틀린 단어는 10분 뒤 다시 나와요</span>}</p>
       </div>
       <button className="primary" ref={nextRef} onClick={next} disabled={pending}>{pending ? "마치는 중…" : index + 1 >= session.queue.length ? "학습 마치기 →" : "다음 문제 →"}</button>
     </div> : <>
-      <form className="study-answer" onSubmit={event => { event.preventDefault(); review("typed", answer); }}>
-        <label htmlFor="answer">정답 입력
-          <input ref={inputRef} id="answer" name="answer" value={answer} onChange={event => setAnswer(event.target.value)} placeholder="빈칸에 들어갈 표현을 입력하세요" autoComplete="off" autoCapitalize="none" spellCheck={false} maxLength={2000} disabled={locked} aria-describedby="answer-help" />
-        </label>
+      <form id="study-answer-form" className="study-answer" onSubmit={event => { event.preventDefault(); review("typed", answer); }}>
         <div className="study-actions"><button className="primary" type="submit" disabled={locked || !answer.trim()}>{pending ? "정답 확인 중…" : "정답 확인"}</button><button type="button" onClick={() => setHint(true)} disabled={locked || hint} aria-expanded={hint}>{hint ? "힌트 사용 중" : "힌트 보기"}</button><span id="answer-help" className="small quiet">{request ? "저장 상태를 먼저 확인해 주세요." : "영어 철자와 띄어쓰기를 확인해 보세요 · Enter"}</span></div>
       </form>
 
