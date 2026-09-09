@@ -7,9 +7,9 @@ WordLoop는 개인 학습 기록을 안전하게 보관하는 독립 앱입니�
 ## Stack
 
 - Next.js App Router + TypeScript
-- Supabase Auth (GitHub OAuth) + PostgreSQL/RLS
+- Supabase Auth (Google + GitHub OAuth) + PostgreSQL/RLS
 - Vercel
-- Vitest, Playwright 준비, GitHub Actions CI
+- Vitest, Playwright 기반 검증
 
 ## Local development
 
@@ -34,11 +34,11 @@ npm run dev
 ## Deployment
 
 1. Supabase 프로젝트를 만들고 migration을 적용합니다.
-2. Auth에서 GitHub provider와 callback URL을 설정합니다.
+2. Auth에서 Google과 GitHub provider 및 callback URL을 설정합니다.
 3. Vercel에 이 저장소를 import합니다.
 4. `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `NEXT_PUBLIC_SITE_URL`을 Vercel 환경변수로 등록합니다.
 
-자세한 순서는 `docs/runbook/deployment.md`에 있습니다. 비밀키는 커밋하지 말고, Supabase service-role key를 브라우저나 Vercel 공개 환경변수에 넣지 않습니다.
+자세한 순서는 `docs/runbook/deployment.md`와 [보안 인수인계 가이드](docs/runbook/secure-handoff.md)에 있습니다. 비밀키는 커밋하지 말고, Supabase service-role key를 브라우저나 Vercel 공개 환경변수에 넣지 않습니다.
 
 ## Study contract
 

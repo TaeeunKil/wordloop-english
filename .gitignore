@@ -9,6 +9,7 @@ test-results/
 !.env.example
 *.pem
 *.key
+.vercel/
 supabase/.temp/
 supabase/.branches/
 work/

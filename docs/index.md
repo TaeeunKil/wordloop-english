@@ -6,6 +6,7 @@
 - [Local development](runbook/local-development.md)
 - [Supabase setup](runbook/supabase-setup.md)
 - [Deployment](runbook/deployment.md)
+- [Secure handoff](runbook/secure-handoff.md)
 - [Backup and restore](runbook/backup-restore.md)
 - [Incident notes](runbook/incidents.md)
 - [Legacy migration](migration/legacy-to-v1.md)
