@@ -27,6 +27,7 @@ npm run dev
 
 - `src/`: Next.js 앱, 서버 액션, 데이터 접근
 - `supabase/migrations/`: 스키마, RLS, 복습/통계 RPC
+- `supabase/catalog/`: DB migration으로 승격하기 전의 버전 관리된 공용 단어 원본
 - `docs/`: 설계, 운영, 이관, 학습 기록 문서
 - `archive/legacy/`: 이전 정적 구현의 로컬 보존본. 새 앱 런타임에는 포함하지 않음
 - `AGENTS.md`: 에이전트 작업 규칙

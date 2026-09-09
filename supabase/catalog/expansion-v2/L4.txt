@@ -1,0 +1,144 @@
+@academic|reasoning
+argument|n|주장을 뒷받침하는 논리|Her argument connects better lighting with safer streets.
+claim|n|사실이라고 내세우는 주장|The article offers no evidence for its main claim.
+conclusion|n|결론|The final paragraph explains how we reached our conclusion.
+observation|n|관찰한 내용|Record one observation about each plant every morning.
+pattern|n|반복되는 양상|We noticed a pattern in the busiest visiting times.
+trend|n|추세|The chart shows a trend toward smaller households.
+theory|n|현상을 설명하는 이론|The theory explains why the two materials behave differently.
+method|n|체계적인 방법|We used the same method to count visitors each day.
+sample|n|조사나 실험에 쓰는 표본|The sample included people from three age groups.
+data|n|분석에 쓰는 자료|The data show that weekend demand is rising.
+source|n|정보의 출처|The report names the source of every figure.
+survey|n|설문 조사|A survey asked residents which bus routes they use.
+contrast|n|뚜렷한 차이; 대조|There is a clear contrast between the two neighborhoods.
+relationship|n|두 대상 사이의 관계|The graph suggests a relationship between rainfall and crop growth.
+summary|n|요약|Add a short summary before the detailed results.
+@academic|academic-actions
+define|v|정의하다|Define the key terms before presenting your argument.
+examine|v|자세히 살펴보다|The class will examine three accounts of the event.
+investigate|v|조사하다|We want to investigate why attendance fell last winter.
+measure|v|측정하다|Use the same ruler to measure each sample.
+estimate|v|추정하다|We can estimate the distance using the scale on the map.
+predict|v|예측하다|The model tries to predict demand during school holidays.
+illustrate|v|예를 들어 보여 주다|These photographs illustrate how the coastline has changed.
+indicate|v|나타내다; 가리키다|A red mark will indicate where the sample was collected.
+refer|v|언급하다; 참조하다|The numbers refer to the sections listed below.
+summarize|v|요약하다|Summarize the main findings in your own words.
+expand|v|범위나 규모를 넓히다|The school plans to expand its evening program.
+revise|v|수정하다|Revise the introduction after you finish the final section.
+clarify|v|명확히 하다|A second diagram may clarify the sequence of events.
+challenge|v|의문을 제기하다|New findings challenge the idea that all learners need the same schedule.
+prove|v|입증하다|One successful trial does not prove that the method always works.
+@workplace|business-documents
+contract|n|계약서; 계약|Read the contract carefully before signing it.
+agreement|n|합의; 협약|The two firms reached an agreement on delivery dates.
+proposal|n|제안서|Our proposal includes a budget and a six-week schedule.
+budget|n|예산|The budget covers equipment but not travel.
+invoice|n|청구서|The invoice lists the cost of each replacement part.
+payment|n|대금 지불|Payment is due within thirty days of delivery.
+fee|n|서비스 이용 수수료|There is a small fee for changing your booking.
+expense|n|지출 비용|Travel was the largest expense for the project.
+profit|n|비용을 뺀 이익|The shop made a small profit in its first year.
+loss|n|금전적 손실|The canceled event resulted in a financial loss.
+supplier|n|공급업체|We asked the supplier for a sample before ordering.
+client|n|전문 서비스를 받는 고객|The client requested a simpler design for the website.
+branch|n|지점|Our newest branch opens near the university next month.
+headquarters|n|본사|The design team works at the company headquarters.
+department|n|부서|Contact the finance department if your payment is missing.
+@workplace|operations
+equipment|n|장비|Check the equipment before starting the workshop.
+facility|n|특정 용도의 시설|The new facility can store fresh food overnight.
+maintenance|n|유지 보수|The lift will be closed for maintenance on Tuesday.
+inspection|n|점검; 검사|The inspection found damage to two window frames.
+procedure|n|정해진 업무 절차|Follow the procedure displayed beside the machine.
+process|n|일련의 처리 과정|The approval process usually takes three working days.
+standard|n|품질이나 판단의 기준|Every batch must meet the same quality standard.
+quality|n|품질|We test the quality of the fabric before using it.
+quantity|n|수량|Please confirm the quantity before placing your order.
+stock|n|판매용 재고|We have enough stock for the weekend sale.
+warehouse|n|창고|The goods are stored in a warehouse outside the city.
+shipment|n|한 번에 운송되는 화물|The next shipment should arrive on Thursday.
+operate|v|기계나 장비를 작동시키다|Only trained staff may operate this machine.
+install|v|설치하다|A technician will install the new printer tomorrow.
+monitor|v|지속적으로 확인하다|We monitor the storage temperature throughout the day.
+@workplace|people-policy
+position|n|직책; 일자리|The position involves both writing and customer support.
+candidate|n|지원자; 후보자|Each candidate will give a short presentation.
+qualification|n|공식 자격|A teaching qualification is required for this position.
+promotion|n|승진|Her promotion came after two years of leading the team.
+performance|n|업무 수행 성과|The manager discussed my performance at our monthly meeting.
+policy|n|조직의 방침|The policy explains when staff can work remotely.
+permission|n|허가|You need permission to enter the storage area.
+requirement|n|필수 조건|Previous sales experience is not a requirement for this role.
+obligation|n|의무|The contract creates an obligation to report delays promptly.
+permission slip|phr|서면 허가서|Bring a signed permission slip before the school visit.
+approve|v|승인하다|The director must approve purchases above this amount.
+reject|v|거부하다; 받아들이지 않다|We may reject applications that arrive after the deadline.
+assign|v|업무를 배정하다|The supervisor will assign a different task to each trainee.
+participate|v|참여하다|All departments can participate in the planning meeting.
+cooperate|v|협력하다|The two teams need to cooperate on the launch.
+@general|society-environment
+community|n|지역 공동체|The community raised money to repair the playground.
+resident|n|거주자|Each resident received a notice about the road closure.
+citizen|n|시민; 국민|Every citizen can request a copy of the public report.
+authority|n|공적인 결정 권한|The council has the authority to close unsafe buildings.
+access|n|이용하거나 접근할 수 있는 기회|The project gives rural students access to online lessons.
+demand|n|수요|Demand for small apartments has increased near the station.
+supply|n|공급량|The storm interrupted the supply of fresh vegetables.
+shortage|n|부족|A shortage of drivers caused several routes to close.
+climate|n|기후|The region has a dry climate with warm summers.
+habitat|n|동식물의 서식지|The wetland is an important habitat for migrating birds.
+wildlife|n|야생 동식물|Keep your distance from wildlife in the park.
+emission|n|기체 등의 배출|The filter reduces the emission of harmful gases.
+conservation|n|자연환경 보전|The group supports forest conservation through local projects.
+renewable|adj|자연적으로 보충되는|The town is investing in renewable energy from wind.
+urban|adj|도시의|Urban gardens can provide small spaces for wildlife.
+@general|evaluating-options
+accurate|adj|정확한|An accurate address helps the driver find your building.
+appropriate|adj|상황에 적절한|Choose clothing that is appropriate for outdoor work.
+effective|adj|효과적인|The new signs are an effective way to guide visitors.
+practical|adj|실용적인; 현실적으로 유용한|She gave us practical advice about traveling with children.
+essential|adj|꼭 필요한|Good ventilation is essential in this room.
+necessary|adj|필요한|A second visit is necessary to finish the repair.
+suitable|adj|용도에 알맞은|The path is suitable for beginners on bicycles.
+reasonable|adj|합리적인; 무리가 없는|A week seems like a reasonable time to review the draft.
+valuable|adj|가치 있는|The interview gave us valuable information about local needs.
+limited|adj|한정된|The workshop has limited space, so please register early.
+temporary|adj|임시의|A temporary bridge will carry traffic during the repairs.
+permanent|adj|영구적인; 상설의|The museum now has a permanent exhibition on local farming.
+independent|adj|독립적인|The results were checked by an independent research team.
+complex|adj|여러 요소가 얽혀 복잡한|The diagram makes the complex system easier to understand.
+obvious|adj|명백한|There was no obvious reason for the sudden delay.
+@academic|logical-connections
+furthermore|adv|게다가|The route is shorter; furthermore, it avoids the busiest roads.
+otherwise|adv|그렇지 않으면|Save your work regularly; otherwise, you may lose recent changes.
+meanwhile|adv|그동안에|The first group collected samples; meanwhile, the second prepared the labels.
+gradually|adv|점차|The number of visitors gradually rose during the spring.
+eventually|adv|마침내|After several revisions, we eventually agreed on a title.
+frequently|adv|빈번하게|The temperature changes frequently in this part of the valley.
+rarely|adv|좀처럼 ~하지 않는|The lake rarely freezes before December.
+mainly|adv|주로|The study mainly focuses on the experiences of new students.
+roughly|adv|대략|Roughly half the participants chose the earlier session.
+relatively|adv|상대적으로|The northern path is relatively flat compared with the coastal route.
+regardless of|prep|~와 관계없이|The library welcomes visitors regardless of their age.
+according to|prep|~에 따르면|According to the timetable, the last train leaves at ten.
+due to|prep|~ 때문에|The entrance is closed due to construction work.
+in addition to|prep|~에 더하여|In addition to interviews, we collected written comments.
+as a result|phr|그 결과|The timetable changed; as a result, more students could attend.
+@workplace|coordination
+arrange|v|일정 등을 마련하다|Can you arrange a meeting with the supplier?
+notify|v|알리다; 통지하다|Please notify the office if your address changes.
+submit|v|제출하다|Submit your expense form by Friday afternoon.
+attach|v|첨부하다|Attach the receipt to your claim form.
+transfer|v|옮기다; 이체하다|We will transfer the remaining funds to your account.
+reserve|v|따로 확보해 두다|Please reserve two parking spaces for the visiting engineers.
+extend|v|기간을 연장하다|The team asked to extend the deadline by three days.
+postpone|v|뒤로 미루다|We decided to postpone the outdoor training until next week.
+resolve|v|문제를 해결하다|A quick phone call helped resolve the booking error.
+handle|v|업무나 문제를 처리하다|Our support team will handle your request this afternoon.
+distribute|v|나누어 전달하다|Volunteers will distribute maps at the main entrance.
+update|v|최신 내용으로 바꾸다|Please update the contact list before the next mailing.
+recommend|v|추천하다|The technician will recommend a printer for our needs.
+remind|v|잊지 않도록 알려 주다|Please remind me to send the revised schedule.
+respond|v|응답하다|We aim to respond to all inquiries within two days.

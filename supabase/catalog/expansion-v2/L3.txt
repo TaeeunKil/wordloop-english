@@ -1,0 +1,112 @@
+@general|choices-habits
+prefer|v|더 좋아하다|I prefer walking to taking a crowded bus.
+refuse|v|거절하다|You can refuse the invitation without giving a reason.
+offer|v|제공하겠다고 제안하다|They offer to drive us home when it rains.
+promise|v|약속하다|Do not promise something you cannot do.
+consider|v|고려하다|We should consider the weather before choosing a date.
+realize|v|깨닫다|I now realize why she wanted more time.
+notice|v|알아차리다|Did you notice the new sign at the entrance?
+guess|v|추측하다|Try to guess the meaning from the picture.
+depend|v|의존하다; 달려 있다|Our travel plans depend on the weather.
+continue|v|계속하다|You can continue reading after the break.
+prepare|v|준비하다|We prepare our lunches the night before.
+protect|v|보호하다|These gloves protect your hands from the cold.
+save|v|돈을 모으다|I save a little money every month for travel.
+spend|v|시간을 보내다|We spend most weekends in the garden.
+afford|v|비용을 감당할 수 있다|We cannot afford a larger apartment yet.
+@general|community
+volunteer|n|자원봉사자|A volunteer showed us around the animal shelter.
+charity|n|자선 단체|The charity provides warm meals in winter.
+neighborhood|n|동네; 근처 지역|A new library opened in our neighborhood.
+population|n|인구|The town has a population of about twenty thousand.
+traffic|n|도로 교통량|Traffic is lighter during the school holidays.
+transport|n|교통수단; 운송|Public transport makes it easier to visit the city.
+pollution|n|오염|The students measured air pollution near the road.
+waste|n|쓰레기; 폐기물|We separate food waste from paper and plastic.
+recycle|v|재활용하다|The school encourages families to recycle old batteries.
+collect|v|모으다; 수거하다|Volunteers collect litter from the beach each month.
+share|v|함께 쓰다; 나누다|Three families share the small garden.
+organize|v|행사를 준비하다|We organize a picnic for new residents every spring.
+public|adj|공공의|The public swimming pool opens at seven.
+private|adj|개인 소유의; 사적인|This path leads to a private garden.
+safe|adj|안전한|Is this road safe for children to cycle on?
+@general|health-lifestyle
+exercise|n|운동|A short walk is an easy form of exercise.
+habit|n|습관|Checking my bag before leaving is a useful habit.
+diet|n|평소의 식사 내용|Her diet includes plenty of vegetables and beans.
+energy|n|활동할 힘; 기운|I have more energy after a good sleep.
+stress|n|스트레스; 정신적 압박|Talking to a friend helps me deal with stress.
+rest|n|휴식|Take a short rest before the next walk.
+pain|n|통증|The pain in my ankle started during the game.
+illness|n|질병|He missed a week of school because of illness.
+recover|v|회복하다|She needed several days to recover from the flu.
+breathe|v|숨 쉬다|It is easier to breathe when the air is clean.
+relax|v|긴장을 풀다; 쉬다|I read in the garden to relax after work.
+regular|adj|규칙적인|Regular breaks help me stay focused during long lessons.
+active|adj|활동적인|My grandfather stays active by walking every morning.
+physical|adj|신체의|Gardening can be hard physical work.
+mental|adj|정신의|Sleep matters for both physical and mental health.
+@academic|study-skills
+knowledge|n|지식|The course builds your knowledge of local history.
+skill|n|기술; 능력|Writing a clear summary is a useful skill.
+subject|n|학과목|History was my favorite subject at school.
+degree|n|대학 학위|She is studying for a degree in biology.
+course|n|강좌; 교육 과정|The evening course lasts eight weeks.
+progress|n|진전; 발전|You have made real progress with your pronunciation.
+research|n|연구|The class did research on how people use the park.
+experiment|n|실험|Our experiment tested which material kept water warmest.
+solution|n|해결책|We found a simple solution to the storage problem.
+discuss|v|토론하다; 의논하다|We will discuss the article in small groups.
+describe|v|묘사하다; 설명하다|Describe the room without looking at the picture.
+develop|v|발달시키다; 키우다|Group projects help students develop communication skills.
+attend|v|참석하다; 출석하다|I attend an English class twice a week.
+fail|v|시험에 떨어지다|You can take the test again if you fail.
+achieve|v|달성하다|A clear weekly plan helps me achieve my goals.
+@workplace|work-routines
+employee|n|직원|Each employee receives a name badge on arrival.
+employer|n|고용주|My employer pays for work-related training.
+colleague|n|동료|A colleague helped me prepare for the presentation.
+salary|n|급여|The job offers a higher salary but longer hours.
+shift|n|교대 근무 시간|My evening shift starts at four.
+task|n|맡은 일; 과제|Your first task is to check the guest list.
+schedule|n|일정표|The new schedule gives us a longer lunch break.
+application|n|지원서; 신청서|Send your application before the end of the month.
+interview|n|면접|She has an interview with a travel company tomorrow.
+training|n|직무 교육; 훈련|The training covers customer service and basic safety.
+hire|v|고용하다|The cafe plans to hire two more cooks.
+earn|v|벌다|Students can earn money by working at the festival.
+apply|v|지원하다; 신청하다|You can apply for the position online.
+complete|v|완료하다|Please complete the safety training before your first shift.
+request|n|요청|We received a request for twenty extra chairs.
+@workplace|travel-service
+reservation|n|예약 내역|Your reservation includes breakfast for two people.
+receipt|n|영수증|Please keep the receipt if you want to return the item.
+discount|n|할인|The hotel offers a discount for longer stays.
+delivery|n|배송|The delivery arrived a day earlier than expected.
+package|n|소포|This package contains the books you ordered.
+delay|n|지연|A signal problem caused a short delay.
+departure|n|출발|Please arrive thirty minutes before departure.
+destination|n|목적지|The screen shows the destination of each train.
+accommodation|n|숙소|The company will arrange accommodation near the office.
+complaint|n|불만 제기|We received a complaint about the noise upstairs.
+cancel|v|취소하다|We had to cancel the outdoor event because of rain.
+replace|v|교체하다|The shop will replace the broken kettle.
+include|v|포함하다|Does the price include delivery to my home?
+extra|adj|추가의|There is an extra charge for large bags.
+convenient|adj|편리한|The station is in a convenient location for visitors.
+@general|opinions-experiences
+confident|adj|자신감 있는|I feel more confident speaking after a month of practice.
+curious|adj|궁금해하는|The children were curious about the old wooden box.
+disappointed|adj|실망한|We were disappointed when the concert was canceled.
+surprised|adj|놀란|I was surprised by how quiet the city was.
+patient|adj|참을성 있는|Our teacher is patient when we ask the same question again.
+honest|adj|정직한|Please give me an honest opinion about my drawing.
+serious|adj|심각한|The storm caused serious damage to the roof.
+simple|adj|간단한|The machine comes with simple instructions.
+common|adj|흔한|Missing a small word is a common reading mistake.
+unusual|adj|특이한; 흔하지 않은|We heard an unusual sound under the floor.
+probably|adv|아마도|The repairs will probably take another day.
+especially|adv|특히|I enjoy outdoor activities, especially cycling.
+recently|adv|최근에|We recently moved to a smaller apartment.
+however|adv|그러나|The room is small; however, it gets plenty of light.
+unless|conj|~하지 않는 한|We will eat outside unless it starts to rain.

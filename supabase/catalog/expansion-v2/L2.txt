@@ -1,0 +1,80 @@
+@general|travel
+station|n|역|The station is across from the bank.
+airport|n|공항|We took a bus to the airport.
+passenger|n|승객|Each passenger needs a ticket.
+suitcase|n|여행 가방|My suitcase is too heavy to lift.
+map|n|지도|This map shows the path to the lake.
+corner|n|길모퉁이|Turn left at the next corner.
+bridge|n|다리; 교량|We crossed the bridge on foot.
+entrance|n|입구|The entrance is behind the building.
+exit|n|출구|Follow the signs to the exit.
+upstairs|adv|위층으로|She went upstairs to get her coat.
+downstairs|adv|아래층에|The bathroom is downstairs near the kitchen.
+straight|adv|똑바로; 곧장|Go straight until you see a bakery.
+cross|v|건너다|Wait for the green light before you cross the street.
+ride|v|타고 가다|We ride our bikes to the beach.
+miss|v|교통편을 놓치다|Hurry, or we will miss the bus.
+@general|food-shopping
+vegetable|n|채소|Choose a vegetable to add to the soup.
+fruit|n|과일|We have fresh fruit after lunch.
+cheese|n|치즈|Would you like cheese in your sandwich?
+chicken|n|닭고기|We had chicken with rice for dinner.
+sugar|n|설탕|I drink my tea without sugar.
+salt|n|소금|This soup needs a little salt.
+menu|n|메뉴; 차림표|Can we see the lunch menu?
+bill|n|식사 요금 계산서|We asked for the bill after dessert.
+cash|n|현금|Can I pay in cash here?
+change|n|거스름돈|Keep the change in your pocket.
+cheap|adj|가격이 싼|These apples are cheap today.
+expensive|adj|비싼|The blue coat is too expensive for me.
+fresh|adj|신선한|The bakery sells fresh rolls every morning.
+sweet|adj|맛이 단|The strawberries are very sweet.
+delicious|adj|맛있는|Your vegetable soup is delicious.
+@general|relationships
+neighbor|n|이웃|Our neighbor waters our plants when we travel.
+guest|n|초대받은 손님|We have a guest staying this weekend.
+couple|n|두 사람으로 이루어진 커플|The couple lives above the shop.
+child|n|어린이|Every child can choose a toy.
+parent|n|부모 중 한 사람|A parent must sign this form.
+kind|adj|친절한|The kind driver helped with my bags.
+polite|adj|예의 바른|Their son is polite to everyone.
+angry|adj|화난|She was angry about the broken window.
+excited|adj|신이 난|We are excited about the school trip.
+worried|adj|걱정하는|He is worried about his missing cat.
+smile|v|미소 짓다|The baby starts to smile when she hears music.
+laugh|v|웃다|Your stories always make us laugh.
+thank|v|감사하다|I want to thank you for your help.
+agree|v|동의하다|I agree that we should go early.
+visit|v|방문하다|We visit our grandparents every Sunday.
+@academic|learning-routines
+lesson|n|수업 한 시간|Our first lesson starts at nine.
+homework|n|숙제|I finish my homework before dinner.
+question|n|질문|I have a question about this word.
+answer|n|답|Write your answer below the picture.
+sentence|n|문장|This sentence has six words.
+page|n|페이지; 쪽|Draw a line across the page.
+dictionary|n|사전|I use a dictionary to check new words.
+notebook|n|공책|Bring a notebook and a pencil.
+learn|v|배우다|We learn a new song each week.
+spell|v|철자를 말하거나 쓰다|Can you spell your street name?
+repeat|v|반복해서 말하다|Please repeat the word after me.
+check|v|확인하다; 살펴보다|Check your answers before you leave.
+finish|v|끝내다|We can finish this exercise together.
+easy|adj|쉬운|The first question was easy for me.
+difficult|adj|어려운|This word is difficult to spell.
+@workplace|everyday-service
+office|n|사무실|The office is on the second floor.
+shop|n|가게|The shop closes at six today.
+email|n|이메일|Send me an email with the date.
+phone|n|전화기|The phone is on your desk.
+address|n|주소|Please write your address on the form.
+appointment|n|방문이나 면담 약속|My appointment is at three on Monday.
+wait|v|기다리다|Please wait here for a moment.
+send|v|보내다|We send packages every afternoon.
+receive|v|받다|You will receive your ticket by email.
+pay|v|지불하다|You can pay at the front desk.
+sell|v|팔다|They sell flowers outside the station.
+repair|v|고치다|Can you repair this broken chair?
+ready|adj|준비된|Your order is ready to collect.
+late|adj|늦은|The delivery is ten minutes late.
+free|adj|요금이 없는; 무료인|Parking is free after six.

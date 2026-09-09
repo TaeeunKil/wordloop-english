@@ -9,7 +9,7 @@
 - `.env.example`, `supabase/config.toml`, `package.json`과 lockfile
 - 개인 데이터가 없는 테스트와 문서
 
-Migration은 파일명 순서가 곧 적용 순서입니다. 이미 적용한 파일을 수정하지 말고 새 migration을 추가합니다. `supabase/catalog/`의 미검토 후보는 품질·출처·개인정보 여부를 확인하고, 승인된 공유 콘텐츠만 migration으로 만든 뒤 커밋합니다.
+Migration은 파일명 순서가 곧 적용 순서입니다. 이미 적용한 파일을 수정하지 말고 새 migration을 추가합니다. `supabase/catalog/`의 공개·자체 editorial 원본은 구조·중복·비밀정보 검사를 거친 뒤 커밋할 수 있습니다. 현재 `expansion-v2`는 555개(L1~L5)의 원본이며, DB에 자동 반영되지 않습니다. 활성화하려면 품질 검토 후 stable key와 함께 별도의 forward-only migration으로 승격해야 합니다.
 
 ## GitHub에 올리지 않을 것
 
@@ -18,6 +18,7 @@ Migration은 파일명 순서가 곧 적용 순서입니다. 이미 적용한 �
 - access token, refresh token, JWT, 브라우저 쿠키, Vercel token
 - 사용자 계정, 단어장, 복습 이벤트, DB dump, 운영 백업
 - 개인 정보가 포함된 로그·스크린샷·로컬 snapshot
+- 개인정보·출처가 확인되지 않은 후보 콘텐츠
 - `.vercel/`, `supabase/.temp/`, `node_modules/`, build 산출물
 
 `.gitignore`가 보호하더라도 커밋 전에 파일 목록을 직접 확인합니다. 비밀값은 다른 에이전트 프롬프트나 공개 이슈에 붙이지 말고, 필요한 경우 사용자가 각 대시보드의 환경변수 입력란에 직접 넣습니다.

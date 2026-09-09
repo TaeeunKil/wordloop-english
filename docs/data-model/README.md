@@ -24,6 +24,8 @@ The original five tables carry an ownership path to `auth.users`. The migration 
 - `20260908120300_vocabulary_catalog_exp2.sql` and `20260908120400_vocabulary_catalog_exp3.sql`: add 700 original editorial cards (100 per level) and 2,100 rules, bringing the catalog to 1,050 cards (150 per level) and 3,150 rules. Each batch uses a new stable content-key/UUID namespace and inserts only shared content.
 - `20260908120500_daily_study.sql`: adds the learner track default and persisted daily plans. `start_daily_session()` imports only the selected active catalog cards that are not already in the learner's collection, chooses them once with randomized ordering, and returns the remaining ordered queue. Due and fresh personal words are considered before catalog cards.
 
+The versioned source under [`supabase/catalog/expansion-v2`](../../supabase/catalog/expansion-v2/) contains 555 additional original editorial candidates for L1–L5. It is not part of the 1,050-card production baseline and is not imported until a reviewed forward-only migration is added.
+
 Migration history is forward-only. Never edit already-applied migrations to refresh content. Add a new migration using the stable `content_key`/ID to update an existing sense; give a different sense a new key. Seed IDs are deterministically derived from permanent version/level/sequence keys. They must not be recomputed when a card changes difficulty. The sequence is not a frequency ranking.
 
 ## Sense cards and search

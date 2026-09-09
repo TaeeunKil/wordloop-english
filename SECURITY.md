@@ -12,9 +12,11 @@
 - Google/GitHub OAuth client secret, access token, refresh token, 브라우저 쿠키와 JWT
 - Supabase 사용자·단어장·복습 기록, 데이터베이스 dump와 운영 백업
 - 개인 정보가 포함된 로그, 캡처, 로컬 recovery snapshot
-- 검토되지 않은 `supabase/catalog/` 후보 데이터
+- 개인정보·출처가 확인되지 않은 후보 데이터와 운영 데이터
 
 `.env*`, `*.pem`, `*.key`, `.vercel/`, `supabase/.temp/`와 같은 로컬 산출물은 Git에서 제외합니다. `.env.example`만 예외적으로 추적합니다.
+
+`supabase/catalog/`는 개인 정보가 없는 WordLoop 자체 editorial 원본만 커밋할 수 있습니다. 커밋된 원본도 검토와 forward-only migration 없이 hosted DB의 활성 콘텐츠가 되지는 않습니다.
 
 ## 런타임 경계
 

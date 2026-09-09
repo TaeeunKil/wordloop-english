@@ -1,0 +1,50 @@
+# Original WordLoop editorial content. Format: term|POS|Korean sense|English example.
+# Section: @domain|topic. Published sequence is immutable; never reorder this batch.
+@general|home
+chair|n|의자|There is a chair beside the bed.
+table|n|탁자|We eat at the round table.
+window|n|창문|The window faces the garden.
+kitchen|n|부엌|Dad is making soup in the kitchen.
+bed|n|침대|The cat is sleeping on my bed.
+lamp|n|램프; 등|I put a lamp beside my chair.
+key|n|열쇠|My key is in the blue bag.
+cup|n|컵|This cup is for your tea.
+plate|n|접시|Put the apple on a plate.
+spoon|n|숟가락|Use a spoon to eat the soup.
+towel|n|수건|Your clean towel is on the shelf.
+soap|n|비누|Wash your hands with soap.
+shirt|n|셔츠|He wears a white shirt to school.
+shoe|n|신발 한 짝|There is a stone in my left shoe.
+bag|n|가방|This bag holds my lunch.
+@general|daily-actions
+eat|v|먹다|We eat rice with vegetables.
+drink|v|마시다|I drink milk at breakfast.
+sleep|v|자다|The children sleep in this room.
+sit|v|앉다|Please sit next to me.
+stand|v|서다|We stand by the door and wait.
+run|v|달리다|The dogs run across the grass.
+wash|v|씻다|Please wash the apple first.
+cook|v|요리하다|I cook dinner with my brother.
+close|v|닫다|Please close the box after lunch.
+give|v|주다|Give this flower to your sister.
+take|v|가지고 가다|Take an umbrella with you.
+put|v|놓다|Put your shoes under the chair.
+find|v|찾아내다|I cannot find my red pen.
+want|v|원하다|I want a sandwich for lunch.
+need|v|필요하다|We need two more chairs.
+@general|everyday-description
+big|adj|큰|A big dog lives next door.
+hot|adj|뜨거운|The soup is still hot.
+cold|adj|차가운|My hands are cold after the walk.
+new|adj|새로운|My new bike is green.
+old|adj|오래된|This old clock still works.
+clean|adj|깨끗한|Here is a clean plate for you.
+dirty|adj|더러운|Leave your dirty boots outside.
+hungry|adj|배고픈|I am hungry after swimming.
+thirsty|adj|목마른|Are you thirsty after the game?
+warm|adj|따뜻한|This warm coat is for winter.
+long|adj|길이가 긴|The dog has a long tail.
+short|adj|길이가 짧은|I need a short piece of string.
+fast|adj|빠른|That fast train goes to the city.
+slow|adj|느린|The slow bus stops at every village.
+quiet|adj|조용한|The house is quiet at night.

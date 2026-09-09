@@ -1,0 +1,208 @@
+@academic|argumentation
+assert|v|단정적으로 주장하다|The author continues to assert that the change benefited every district.
+acknowledge|v|사실이나 한계를 인정하다|We should acknowledge the limits of a survey conducted online.
+contradict|v|모순되다; 반박하다|The delivery records contradict the claim that no orders were delayed.
+refute|v|틀렸음을 입증하여 반박하다|The team used dated photographs to refute the allegation.
+advocate|v|공개적으로 지지하다|Several researchers advocate shorter lessons with more frequent practice.
+propose|v|방안이나 이론을 제안하다|We propose a trial period before adopting the new schedule.
+imply|v|암시하다; 함축하다|A higher price does not necessarily imply better quality.
+question|v|타당성에 의문을 제기하다|The reviewers question whether the sample represents the wider population.
+concede|v|마지못해 또는 논의 중 인정하다|I concede that the new route is faster, but it is less accessible.
+defend|v|주장이나 입장을 옹호하다|The planner used local traffic data to defend the proposal.
+outline|v|핵심 내용을 간략히 설명하다|The opening section will outline the reasons for the redesign.
+elaborate|v|더 자세히 설명하다|Could you elaborate on how the waiting list will be managed?
+reinforce|v|더 강하게 뒷받침하다|The follow-up interviews reinforce the main finding of the survey.
+reject an argument|phr|논거를 받아들이지 않다|We should not reject an argument simply because it is unpopular.
+take into account|phr|판단할 때 고려하다|The estimate must take into account the cost of ongoing maintenance.
+@academic|research-design
+hypothesis|n|검증하려는 가설|Our hypothesis is that shorter instructions lead to fewer errors.
+variable|n|연구에서 달라질 수 있는 요인|Room temperature was the only variable we deliberately changed.
+correlation|n|두 변수의 상관관계|The chart shows a correlation between distance and delivery time.
+causation|n|원인이 결과를 일으키는 관계|This pattern alone cannot establish causation.
+bias|n|판단이나 표본의 편향|Recruiting only regular visitors may introduce bias into the survey.
+validity|n|측정이나 결론의 타당성|The missing responses raise questions about the validity of the comparison.
+reliability|n|측정 결과의 일관된 신뢰성|Repeating the test helped us examine the reliability of the instrument.
+accuracy|n|측정값의 정확도|We checked the accuracy of the scale with a known weight.
+precision|n|표현이나 측정의 정밀함|The task requires more precision than a rough visual estimate.
+framework|n|분석의 기본 체계|The framework separates access, cost, and quality into distinct categories.
+methodology|n|연구 방법의 체계|The report explains the methodology used to recruit and interview participants.
+participant|n|연구나 활동의 참여자|Each participant received the same written instructions.
+consent|n|충분한 설명을 받은 뒤의 동의|The researchers obtained consent before recording the interviews.
+replicate|v|연구나 실험을 재현하다|A second team will replicate the experiment using different equipment.
+validate|v|타당성을 확인하다|We need independent data to validate the prediction model.
+@academic|interpreting-information
+derive|v|근거나 출처에서 얻어 내다|We derive the estimate from the average of twelve measurements.
+deduce|v|알려진 사실에서 논리적으로 도출하다|From the dates on the letters, we can deduce when the family moved.
+differentiate|v|차이를 구분하다|The task asks readers to differentiate observation from speculation.
+classify|v|범주에 따라 분류하다|Two reviewers classify each response before comparing their decisions.
+integrate|v|하나의 체계로 통합하다|The report will integrate interview findings with the survey results.
+formulate|v|생각이나 계획을 구체적으로 세우다|We need to formulate a question that the available data can answer.
+specify|v|구체적으로 명시하다|The instructions should specify how missing values are recorded.
+verify|v|사실 여부를 확인하다|Use the original records to verify the dates in the summary.
+detect|v|발견하다; 감지하다|The sensor can detect small changes in air pressure.
+reveal|v|드러내다|The interviews reveal concerns that were absent from the written survey.
+reflect|v|특성이나 상황을 반영하다|The revised schedule should reflect how people actually use the service.
+highlight|v|중요한 점을 부각하다|The final chart will highlight differences between weekday and weekend demand.
+encompass|v|폭넓게 포함하다|The review will encompass both paid and volunteer services.
+constitute|v|구성하다; ~에 해당하다|These three categories constitute the main part of our analysis.
+undergo|v|과정이나 변화를 겪다|Every application will undergo an initial eligibility check.
+@workplace|strategy-planning
+objective|n|달성하려는 구체적 목표|Our immediate objective is to reduce the time spent on duplicate entries.
+strategy|n|장기적 목표를 위한 전략|The strategy combines staff training with simpler reporting tools.
+priority|n|먼저 처리할 중요 사항|Restoring access to existing records is our first priority.
+scope|n|업무나 검토의 범위|The scope of the review excludes work completed before January.
+milestone|n|진행 중의 주요 단계|Finishing the prototype is the next milestone in the project.
+forecast|n|향후 상황의 예측|The sales forecast assumes that the store will open on schedule.
+benchmark|n|성과를 비교할 기준|Last year's response time serves as a benchmark for improvement.
+capacity|n|처리하거나 수용할 수 있는 능력|The new equipment will double our production capacity.
+implementation|n|계획이나 제도의 실행|Staff training is essential to the successful implementation of the policy.
+initiative|n|문제 해결을 위한 새 사업이나 조치|The initiative offers evening classes in neighborhoods without a college.
+coordinate|v|여러 활동을 조율하다|One person will coordinate deliveries from all three suppliers.
+prioritize|v|우선순위를 정하다|We need to prioritize repairs that affect passenger safety.
+delegate|v|업무나 권한을 위임하다|The manager will delegate routine approvals to team leaders.
+execute|v|계획을 실행하다|A clear checklist helps the team execute the launch plan consistently.
+anticipate|v|미리 예상하다|We anticipate a rise in requests when the new term begins.
+@workplace|finance
+expenditure|n|지출액|The report separates capital expenditure from routine operating costs.
+investment|n|투자|The equipment represents a long-term investment in reliable production.
+asset|n|경제적 가치가 있는 자산|The building is the organization's most valuable asset.
+liability|n|회계상 갚아야 할 채무|The loan appears as a liability on the balance sheet.
+margin|n|매출에서 비용을 뺀 이익의 비율|Higher shipping costs reduced our profit margin.
+surplus|n|필요량이나 지출을 넘는 잉여|The event generated a small surplus after all costs were paid.
+deficit|n|수입보다 지출이 많은 적자|The council plans to reduce its budget deficit over three years.
+cash flow|phr|현금의 유입과 유출|Late payments can disrupt cash flow even when sales are strong.
+turnover|n|일정 기간의 매출액|Annual turnover rose after the company opened its online store.
+overhead|n|사업 운영의 간접비|Rent is the largest overhead for the small studio.
+reimbursement|n|지출 비용의 상환|Submit the original receipt when requesting reimbursement.
+deposit|n|미리 내는 보증금|The venue requires a deposit to secure the booking.
+installment|n|분할 납부금|The final installment is due when the equipment is delivered.
+quote|n|가격 견적|Ask for a written quote before authorizing the repair.
+audit|n|회계나 운영에 대한 감사|The annual audit found that two invoices had been entered twice.
+@workplace|contracts-compliance
+clause|n|계약서의 조항|This clause explains who pays if delivery is delayed.
+term|n|계약상의 조건|One term of the agreement requires advance notice of price changes.
+warranty|n|제품 수리나 교환의 보증|The warranty covers manufacturing defects for two years.
+coverage|n|보험이나 보장의 적용 범위|Check the coverage before taking rented equipment abroad.
+compliance|n|규정 준수|The inspection will assess compliance with the updated safety rules.
+regulation|n|공식 규정|The new regulation requires clearer labels on stored chemicals.
+authorization|n|공식 승인|Written authorization is required before sharing the records externally.
+disclosure|n|정보의 공개|The form requires disclosure of any financial interest in the supplier.
+confidentiality|n|비밀 유지|The agreement includes a section on client confidentiality.
+breach|n|계약이나 의무의 위반|The company treated the unauthorized release as a breach of contract.
+amend|v|공식 문서나 규정을 수정하다|Both parties must agree before we amend the delivery clause.
+comply|v|규칙이나 요구를 준수하다|All suppliers must comply with the packaging requirements.
+authorize|v|공식적으로 허가하다|Only the account owner can authorize a change of payment details.
+renew|v|유효기간을 갱신하다|Please renew the license before it expires in June.
+terminate|v|계약이나 절차를 종료하다|Either party may terminate the agreement with thirty days of notice.
+@workplace|people-organizations
+recruitment|n|인력 채용|The recruitment process includes a practical writing exercise.
+retention|n|직원의 계속 근무 유도; 유지|Flexible schedules have helped improve staff retention.
+turnover rate|phr|직원 이직률|The turnover rate fell after the company improved its training program.
+workload|n|업무량|We review each person's workload before assigning another project.
+productivity|n|생산성|The team tracks productivity alongside error rates and customer feedback.
+morale|n|집단의 사기|A clear explanation of the changes helped restore staff morale.
+competence|n|업무 수행 능력|The assessment checks practical competence rather than years of experience.
+expertise|n|전문 지식이나 기술|We need technical expertise to evaluate the proposed system.
+stakeholder|n|이해관계자|The planning group includes a representative from each stakeholder organization.
+collaboration|n|공동 작업; 협업|The exhibition grew out of a collaboration between artists and scientists.
+supervise|v|감독하다|An experienced engineer will supervise the installation.
+mentor|v|경험을 바탕으로 지도하다|Senior staff volunteer to mentor new employees during their first month.
+consult|v|전문가나 관계자에게 의견을 구하다|We should consult the people who use the service daily.
+motivate|v|행동할 동기를 주다|Clear feedback can motivate learners to continue a difficult task.
+accommodate|v|요구나 사정을 수용하다|The revised timetable can accommodate staff with longer commutes.
+@general|environment-systems
+biodiversity|n|생물 다양성|The survey records biodiversity in small urban gardens.
+ecosystem|n|생태계|Removing one species can affect the balance of the ecosystem.
+depletion|n|자원의 고갈|The report warns of groundwater depletion during prolonged droughts.
+erosion|n|토양이나 해안의 침식|Plants along the bank help limit soil erosion.
+drought|n|가뭄|The drought forced several farms to change their planting schedules.
+resilience|n|충격에서 회복하는 능력|Diverse crops can improve a farm's resilience to changing weather.
+adaptation|n|환경 변화에 대한 적응|The plan funds adaptation to hotter summers in the city.
+emissions target|phr|배출량 감축 목표|The council set an emissions target for its own buildings.
+carbon footprint|phr|활동으로 발생하는 온실가스 배출량|The company measured the carbon footprint of its delivery network.
+infrastructure|n|사회 기반 시설|Reliable transport infrastructure connects remote communities to essential services.
+contaminate|v|오염시키다|A leaking tank can contaminate nearby soil.
+restore|v|이전의 좋은 상태로 되돌리다|Volunteers hope to restore native plants along the river.
+preserve|v|훼손되지 않게 보존하다|The project will preserve the old trees beside the station.
+conserve|v|자원을 아껴 쓰다|The new irrigation system helps conserve water.
+phase out|phr|단계적으로 없애다|The office plans to phase out disposable cups over six months.
+@general|society-access
+inequality|n|사회적 불평등|The study examines inequality in access to public transport.
+equity|n|필요와 상황을 고려한 공정성|The funding model considers equity as well as total enrollment.
+inclusion|n|배제하지 않고 참여하게 함|The program promotes inclusion by providing materials in several formats.
+exclusion|n|참여나 이용에서의 배제|An online-only service can lead to exclusion for people without internet access.
+barrier|n|접근이나 진전을 막는 장벽|Transport costs remain a barrier to attending the evening classes.
+mobility|n|이동의 자유나 능력|Reliable buses improve mobility for residents who do not drive.
+affordability|n|비용을 감당할 수 있는 정도|The review compares housing quality with affordability.
+accessibility|n|다양한 사람이 이용할 수 있는 정도|The redesign improves accessibility with step-free entrances and clear signs.
+representation|n|집단의 입장을 대신 드러내는 참여|The committee needs better representation from younger residents.
+participation|n|활동이나 의사결정에의 참여|Evening meetings increased participation among working parents.
+empower|v|스스로 행동할 권한이나 역량을 주다|The training aims to empower residents to lead local projects.
+exclude|v|제외하다|The calculation will exclude responses with no completion date.
+engage|v|관심과 참여를 이끌어 내다|The museum uses neighborhood stories to engage new visitors.
+promote|v|발전이나 확산을 촉진하다|The campaign aims to promote reading beyond the classroom.
+foster|v|성장이나 발달을 돕다|Shared projects can foster trust between unfamiliar teams.
+@academic|evaluating-evidence
+credible|adj|믿을 만한 근거가 있는|The account is credible because several independent records support it.
+objective|adj|개인 감정에 치우치지 않는|An objective comparison uses the same criteria for both options.
+subjective|adj|개인의 관점이나 느낌에 따른|Ratings of comfort are subjective and may differ widely.
+explicit|adj|명시적인|The form needs explicit instructions about which fields are optional.
+implicit|adj|직접 말하지 않았지만 내포된|The policy carries an implicit assumption that everyone can travel easily.
+adequate|adj|목적에 충분한|The available data are adequate for a rough estimate.
+insufficient|adj|충분하지 않은|A single interview provides insufficient evidence for such a broad claim.
+comprehensive|adj|관련 내용을 폭넓게 다루는|The review offers a comprehensive account of the project's costs.
+representative|adj|전체의 특성을 잘 보여 주는|The sample should be representative of the people using the service.
+random|adj|정해진 규칙 없이 무작위인|We selected a random sample of completed applications.
+systematic|adj|일정한 체계에 따른|A systematic check revealed several repeated labeling errors.
+empirical|adj|관찰이나 실험에 근거한|The proposal needs empirical support beyond personal experience.
+theoretical|adj|이론상의|The theoretical model assumes that demand stays constant.
+underlying|adj|표면 아래에서 작용하는 근본적인|The interviews helped identify the underlying reason for low attendance.
+tentative|adj|아직 확정하지 않은|Our conclusion remains tentative until the second survey is complete.
+@workplace|judgment-risk
+viable|adj|실제로 운영하거나 지속할 수 있는|The service is financially viable if enough families subscribe.
+cost-effective|adj|비용 대비 효과가 좋은|Repairing the existing equipment may be more cost-effective than replacing it.
+competitive|adj|경쟁력이 있는|The supplier offered a competitive price with a shorter delivery time.
+mandatory|adj|의무적인|Safety training is mandatory for everyone entering the workshop.
+eligible|adj|정해진 자격 조건을 갖춘|Part-time staff are eligible for the training allowance.
+applicable|adj|해당 상황에 적용되는|The form lists the rules applicable to overseas purchases.
+compatible|adj|함께 사용하거나 존재할 수 있는|The replacement part must be compatible with the existing pump.
+proportional|adj|비율에 맞는|Each department's contribution is proportional to its use of the service.
+vulnerable|adj|피해를 입기 쉬운|Small suppliers are vulnerable to long payment delays.
+resistant|adj|영향이나 손상에 잘 견디는|The coating is resistant to moisture and ordinary cleaning products.
+adverse|adj|불리하거나 해로운|The plan includes measures for adverse weather conditions.
+potential|adj|앞으로 발생하거나 실현될 수 있는|We discussed potential problems before approving the launch.
+inevitable|adj|피할 수 없는|Some disruption is inevitable while the main entrance is rebuilt.
+foreseeable|adj|합리적으로 예상할 수 있는|The budget should cover foreseeable maintenance costs.
+mutual|adj|양쪽이 함께 가지는|The partnership depends on mutual trust and clear responsibilities.
+@academic|structured-expression
+predominantly|adv|대부분; 주로|The sample consists predominantly of people who travel by bus.
+approximately|adv|대략|Approximately one third of the responses mentioned opening hours.
+significantly|adv|상당한 정도로|The revised form takes significantly less time to complete.
+notably|adv|특히 눈에 띄게|Several services improved, notably evening transport.
+arguably|adv|논거를 들어 말하자면|This is arguably the most practical option given our budget.
+in contrast|phr|그와 대조적으로|The first trial was expensive; in contrast, the second used existing equipment.
+in principle|phr|원칙적으로|We support the proposal in principle but need a clearer budget.
+in practice|phr|실제로는|The rule is simple on paper but difficult to apply in practice.
+to some extent|phr|어느 정도는|The change improved access to some extent, especially for weekend visitors.
+on behalf of|prep|~를 대표하여|I am writing on behalf of the neighborhood planning group.
+in terms of|prep|~의 측면에서|The two options differ mainly in terms of maintenance costs.
+with regard to|prep|~에 관하여|The report makes three recommendations with regard to staff training.
+provided that|conj|~라는 조건으로|We can extend the trial provided that the additional costs are covered.
+even if|conj|설령 ~하더라도|The records must be retained even if the project is canceled.
+as opposed to|prep|~와 대조하여; ~가 아니라|The survey measures actual journeys as opposed to intended travel.
+@workplace|change-improvement
+streamline|v|절차를 간소화하다|Combining the two forms will streamline the application process.
+optimize|v|목적에 맞게 최적화하다|We adjusted the route to optimize fuel use and delivery time.
+automate|v|자동화하다|The team wants to automate routine checks for missing fields.
+standardize|v|같은 기준으로 통일하다|We will standardize the labels across all storage rooms.
+centralize|v|한곳에 집중시키다|The organization plans to centralize purchasing in one department.
+decentralize|v|권한이나 기능을 분산하다|The pilot will decentralize scheduling so local teams can respond faster.
+restructure|v|조직이나 체계를 재편하다|The company will restructure its support teams around customer needs.
+transition|n|새 상태로 옮겨 가는 과정|The transition to the new system will take place over a month.
+innovation|n|새로운 방식의 도입|The award recognizes innovation in low-cost public services.
+efficiency|n|낭비 없이 일을 처리하는 정도|The new layout improved efficiency by reducing unnecessary movement.
+transparency|n|정보와 절차가 공개되어 이해 가능한 상태|Publishing the selection criteria improves transparency.
+consistency|n|기준이나 결과의 일관성|Shared examples help reviewers maintain consistency in their decisions.
+scalability|n|규모가 커져도 대응할 수 있는 능력|The pilot will test the scalability of the booking system.
+usability|n|사용하기 쉬운 정도|We tested usability with people who had never seen the interface.
+feedback loop|phr|결과를 다음 개선에 반영하는 순환 과정|Weekly user interviews create a feedback loop for the design team.
