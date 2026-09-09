@@ -37,6 +37,7 @@ describe("daily study plans", () => {
       "20260908120300_vocabulary_catalog_exp2.sql",
       "20260908120400_vocabulary_catalog_exp3.sql",
       "20260908120500_daily_study.sql",
+      "20260908120600_daily_continue.sql",
     ]) {
       await db.exec(readFileSync(`supabase/migrations/${migration}`, "utf8"));
     }
@@ -91,5 +92,28 @@ describe("daily study plans", () => {
     expect(remaining.queue).toHaveLength(1);
     expect(remaining.queue[0].id).not.toBe(item.id);
     expect(await rows(`select completed_at is not null completed from public.study_day_items where word_id='${item.id}'`)).toEqual([{ completed: true }]);
+  });
+
+  it("appends another batch after the daily batch is complete", async () => {
+    await db.exec(`insert into public.user_settings(user_id,daily_goal) values ('${uid}',2);`);
+    await db.exec(`set local role authenticated; select set_config('request.jwt.claim.sub', '${uid}', true);`);
+    const [{ plan: rawFirst }] = await rows("select public.start_daily_session() plan");
+    const first = rawFirst as DailyPlan;
+    expect(first.queue).toHaveLength(2);
+
+    for (const [index, item] of first.queue.entries()) {
+      await db.exec(`select public.submit_review(
+        '30000000-0000-4000-8000-00000000010${index}',
+        '${first.session_id}', '${item.id}', ${item.version}, ${item.state_version},
+        'typed', '${item.term}', false, null
+      )`);
+    }
+
+    const [{ plan: rawBonus }] = await rows("select public.start_daily_session() plan");
+    const bonus = rawBonus as DailyPlan;
+    expect(bonus.queue).toHaveLength(2);
+    expect(bonus.queue.map(item => item.id)).not.toEqual(first.queue.map(item => item.id));
+    expect(bonus.queue.every(item => item.daily_source === "catalog_random" || item.daily_source === "fresh")).toBe(true);
+    expect(await rows(`select count(*)::int n from public.study_day_items where user_id='${uid}'`)).toEqual([{ n: 4 }]);
   });
 });

@@ -122,7 +122,7 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
     <p className="small quiet">Enter로 제출 · 막히면 힌트 · 틀린 단어는 다시 만나요</p>{errorMessage}
   </section>;
 
-  if (!item) return <section className="study-intro"><p className="eyebrow">ALL CAUGHT UP</p><h2>지금은 복습할 단어가 없어요.</h2><p className="quiet">세션을 마치고 새로운 표현을 추가해 보세요.</p><button className="primary" onClick={next} disabled={pending}>{pending ? "마치는 중…" : "세션 마치기"}</button>{errorMessage}</section>;
+  if (!item) return <section className="study-intro"><p className="eyebrow">BATCH COMPLETE</p><h2>오늘의 학습을<br />마쳤어요.</h2><p className="quiet">목표를 달성했어요. 더 공부하고 싶다면 새로운 단어를 이어서 불러올 수 있습니다.</p><div className="actions"><button className="primary" onClick={begin} disabled={pending}>{pending ? "더 불러오는 중…" : "더 공부하기 →"}</button><button onClick={next} disabled={pending}>오늘 학습 마치기</button></div>{errorMessage}</section>;
 
   const locked = pending || Boolean(request);
   return <section className="study-workspace" aria-busy={pending}>
