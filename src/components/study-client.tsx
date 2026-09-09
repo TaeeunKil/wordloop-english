@@ -156,7 +156,7 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
 
   if (!session) return <section className="study-intro">
     <p className="eyebrow">READY WHEN YOU ARE</p><h2>문장 속 빈칸을<br />채워 볼까요?</h2>
-    <p className="lead quiet">한국어 뜻과 영어 예문을 보고, 가려진 표현을 직접 입력해 보세요.<br />복습할 단어가 먼저 나오고, 빈자리는 목표에 맞는 단어로 채웁니다.</p>
+    <p className="lead quiet">영어 예문을 보고, 가려진 표현을 직접 입력해 보세요.<br />막히면 힌트에서 뜻을 확인할 수 있고, 빈자리는 목표에 맞는 단어로 채웁니다.</p>
     <button className="primary" onClick={begin} disabled={pending}>{pending ? "학습 준비 중…" : "학습 시작하기 →"}</button>
     <p className="small quiet">Enter로 제출 · 막히면 힌트 · 틀린 단어는 다시 만나요</p>{errorMessage}
   </section>;
@@ -171,7 +171,6 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
     <div className="study-prompt" key={item.id}>
       <p className="eyebrow">문장의 빈칸을 채워 보세요</p>
       <ClozeSentence item={item} reveal={Boolean(feedback)} interactive={!feedback} answer={answer} onAnswerChange={setAnswer} inputRef={inputRef} disabled={locked} />
-      <p className="study-translation"><span className="small quiet">뜻</span> {item.meaning}</p>
     </div>
 
     {feedback ? <div className={`study-feedback ${feedback.correct === false ? "wrong" : feedback.correct === null ? "self-rated" : "correct"}`} key={feedback.id}>
@@ -179,7 +178,6 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
         <p className="feedback-label">{feedback.correct === null ? "스스로 확인한 응답을 기록했어요" : feedback.correct ? "정답이에요" : "아직 익숙하지 않은 표현이에요"}</p>
         <ClozeSentence item={item} reveal />
         <div className="feedback-answer-line"><span className="small quiet">정답</span><strong lang="en">{feedback.expected_answer}</strong><span className="feedback-divider" aria-hidden="true">·</span><span className="feedback-meaning-inline">{item.meaning}</span></div>
-        {feedback.correct === false && <p className="feedback-user-answer quiet"><span className="small quiet">내 답</span> <span lang="en">{answer || "입력하지 않음"}</span></p>}
         <p>다음 복습 <time dateTime={feedback.due_at}>{reviewDate(feedback.due_at, timeZone)}</time>{feedback.ability && <span className="small quiet"> · 현재 수준 L{feedback.ability.level}</span>}{feedback.correct === false && <span className="small quiet"> · 틀린 단어는 10분 뒤 다시 나와요</span>}</p>
       </div>
       <button className="primary" ref={nextRef} onClick={next} disabled={pending}>{pending ? "마치는 중…" : index + 1 >= session.queue.length ? "학습 마치기 →" : "다음 문제 →"}</button>
@@ -188,7 +186,7 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
         <div className="study-actions"><button className="primary" type="submit" disabled={locked || !answer.trim()}>{pending ? "정답 확인 중…" : "정답 확인"}</button><button type="button" onClick={() => setHint(true)} disabled={locked || hint} aria-expanded={hint}>{hint ? "힌트 사용 중" : "힌트 보기"}</button><span id="answer-help" className="small quiet">{request ? "저장 상태를 먼저 확인해 주세요." : "영어 철자와 띄어쓰기를 확인해 보세요 · Enter"}</span></div>
       </form>
 
-      {hint && <aside className="hint-content" aria-label="단어 힌트"><p><span className="small quiet">첫 글자</span> <strong lang="en">{item.term.slice(0, 1)}</strong> <span className="small quiet">· {item.term.length}글자</span></p><p className="quiet">힌트를 사용한 응답은 짧은 복습 주기로 기록됩니다.</p></aside>}
+      {hint && <aside className="hint-content" aria-label="단어 힌트"><p><span className="small quiet">첫 글자</span> <strong lang="en">{item.term.slice(0, 1)}</strong> <span className="small quiet">· {item.term.length}글자</span></p><p className="hint-meaning"><span className="small quiet">뜻</span> {item.meaning}</p><p className="quiet">힌트를 사용한 응답은 짧은 복습 주기로 기록됩니다.</p></aside>}
 
       <div className="study-help">
         <details>

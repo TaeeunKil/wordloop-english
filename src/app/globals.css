@@ -199,8 +199,6 @@ fieldset { min-width: 0; border: 0; margin: 0; padding: 0; display: grid; gap: 1
 .cloze-input:disabled { opacity: .7; }
 .cloze-blank.revealed { min-width: 0; color: var(--accent-hover); letter-spacing: -.02em; }
 .cloze-fallback { margin: .75rem 0 1.4rem; color: var(--text-secondary); font-size: 1.15rem; }
-.study-translation { max-width: 680px; margin: 0; color: var(--text-secondary); font-size: 1.1rem; }
-.study-translation .small { margin-right: .5rem; }
 .study-answer { max-width: 650px; }
 .study-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin: 1rem 0; }
 .study-help { max-width: 650px; margin-top: 2.25rem; border-top: 1px solid var(--line); }
@@ -214,6 +212,7 @@ details > .actions { margin-bottom: 1rem; }
 .option-number { color: var(--text-secondary); font-size: .75rem; }
 .hint-content { max-width: 650px; border-left: 2px solid var(--accent); padding: .5rem 1rem; margin: .5rem 0 1.5rem; background: var(--surface-subtle); }
 .hint-content p { margin: 0 0 .4rem; }
+.hint-meaning .small { margin-right: .45rem; }
 .self-answer { font-size: 1.75rem; font-weight: 600; }
 .study-feedback { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 1.5rem; max-width: 820px; padding: 1.35rem 1.5rem; margin: .5rem 0 1rem; border-left: 3px solid var(--success); background: var(--success-soft); animation: arrive 200ms ease-out; }
 .study-feedback.wrong { border-color: var(--danger); background: var(--danger-soft); }
@@ -226,8 +225,6 @@ details > .actions { margin-bottom: 1rem; }
 .feedback-answer-line strong { font-size: 1.45rem; letter-spacing: -.03em; }
 .feedback-divider { color: var(--text-muted); }
 .feedback-meaning-inline { color: var(--text-secondary); }
-.feedback-user-answer { margin: 0 0 .7rem; }
-.feedback-user-answer .small { margin-right: .35rem; }
 .study-feedback time { font-weight: 600; }
 .activity-section { border-top: 1px solid var(--text); padding-top: 1.5rem; }
 .activity-section > .section-heading { border: 0; }
@@ -344,7 +341,6 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .8rem; padding:
   .study-workspace { padding-top: .5rem; }
   .study-prompt { min-height: 215px; padding: 2rem 0 1.25rem; }
   .cloze-sentence { font-size: 1.6rem; }
-  .study-translation { font-size: .98rem; }
   .study-actions > .small { flex-basis: 100%; }
   .study-help summary span { display: block; margin-left: 0; }
   .study-feedback { grid-template-columns: 1fr; gap: 1rem; padding: 1.2rem; }
