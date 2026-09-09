@@ -6,8 +6,22 @@ import { finishStudy, startStudy, submitReview } from "@/app/actions";
 import type { Receipt, ReviewInput, StudyItem } from "@/lib/types";
 import { choiceOptions } from "@/lib/validation";
 import { reviewDate } from "@/lib/calendar";
+import { makeClozeParts } from "@/lib/study";
 
 type Session = { id: string; queue: StudyItem[]; alternatives: string[]; day: string; trackCode: string };
+
+function ClozeSentence({ item, reveal = false }: { item: StudyItem; reveal?: boolean }) {
+  const { parts, matched } = makeClozeParts(item.example, item.term);
+  if (!item.example.trim() || !matched) {
+    return <p className="cloze-fallback" lang="en">이 단어가 들어갈 자연스러운 예문을 준비 중이에요.</p>;
+  }
+  return <p className="cloze-sentence" lang="en" aria-label={reveal ? item.example : "목표 단어가 가려진 영어 예문"}>
+    {parts.map((part, index) => part.kind === "blank"
+      ? <span className={`cloze-blank${reveal ? " revealed" : ""}`} key={`${part.kind}-${index}`}>{reveal ? item.term : "____"}</span>
+      : <span key={`${part.kind}-${index}`}>{part.value}</span>)}
+  </p>;
+}
+
 export function StudyClient({ timeZone }: { timeZone: string }) {
   const [session, setSession] = useState<Session | null>(null);
   const [index, setIndex] = useState(0);
@@ -102,39 +116,57 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
   </section>;
 
   if (!session) return <section className="study-intro">
-    <p className="eyebrow">READY WHEN YOU ARE</p><h2>한 단어에,<br />잠깐 집중해 볼까요?</h2>
-    <p className="lead quiet">뜻을 보고 영어 표현을 떠올려 보세요.<br />복습할 단어가 먼저 나오고, 빈자리는 목표에 맞는 랜덤 단어로 채웁니다.</p>
+    <p className="eyebrow">READY WHEN YOU ARE</p><h2>문장 속 빈칸을<br />채워 볼까요?</h2>
+    <p className="lead quiet">한국어 뜻과 영어 예문을 보고, 가려진 표현을 직접 입력해 보세요.<br />복습할 단어가 먼저 나오고, 빈자리는 목표에 맞는 단어로 채웁니다.</p>
     <button className="primary" onClick={begin} disabled={pending}>{pending ? "학습 준비 중…" : "학습 시작하기 →"}</button>
-    <p className="small quiet">Enter로 제출 · 막히면 힌트 · 응답마다 기록</p>{errorMessage}
+    <p className="small quiet">Enter로 제출 · 막히면 힌트 · 틀린 단어는 다시 만나요</p>{errorMessage}
   </section>;
 
   if (!item) return <section className="study-intro"><p className="eyebrow">ALL CAUGHT UP</p><h2>지금은 복습할 단어가 없어요.</h2><p className="quiet">세션을 마치고 새로운 표현을 추가해 보세요.</p><button className="primary" onClick={next} disabled={pending}>{pending ? "마치는 중…" : "세션 마치기"}</button>{errorMessage}</section>;
 
   const locked = pending || Boolean(request);
   return <section className="study-workspace" aria-busy={pending}>
-    <div className="study-progress"><span>단어 {String(index + 1).padStart(2, "0")} <span className="quiet">/ {String(session.queue.length).padStart(2, "0")}</span></span><span className="small quiet">{item.daily_source === "catalog_random" ? "오늘의 랜덤 단어" : item.due_at ? `복습 단계 ${item.stage}` : "처음 만나는 단어"}</span></div>
+    <div className="study-progress"><span>오늘의 학습 <strong>{String(index + 1).padStart(2, "0")}</strong> <span className="quiet">/ {String(session.queue.length).padStart(2, "0")}</span></span><span className="small quiet">{item.daily_source === "catalog_random" ? "새 단어" : item.due_at ? `복습 단계 ${item.stage}` : "처음 만나는 단어"}</span></div>
     <progress value={index + (feedback ? 1 : 0)} max={session.queue.length} aria-label="이번 학습에서 저장한 응답" />
-    <div className="study-prompt"><p className="eyebrow">이 뜻의 영어 표현은?</p><h2>{item.meaning}</h2></div>
-    {hint && !feedback && <aside className="hint-content" aria-label="단어 힌트"><p>첫 글자 <strong lang="en">{item.term.slice(0, 1)}</strong> · {item.term.length}글자</p>{item.example && <p lang="en">{item.example}</p>}<span className="small quiet">힌트 사용 응답으로 기록됩니다.</span></aside>}
+
+    <div className="study-prompt" key={item.id}>
+      <p className="eyebrow">문장의 빈칸을 채워 보세요</p>
+      <ClozeSentence item={item} reveal={Boolean(feedback)} />
+      <p className="study-translation"><span className="small quiet">뜻</span> {item.meaning}</p>
+    </div>
+
     {feedback ? <div className={`study-feedback ${feedback.correct === false ? "wrong" : feedback.correct === null ? "self-rated" : "correct"}`} key={feedback.id}>
-      <div role="status"><p className="feedback-label">{feedback.correct === null ? "스스로 확인한 응답을 기록했어요" : feedback.correct ? "정답이에요" : "이 표현을 다시 기억해 주세요"}</p>
-        <h3 lang="en">{feedback.expected_answer}</h3>
+      <div role="status" aria-live="polite">
+        <p className="feedback-label">{feedback.correct === null ? "스스로 확인한 응답을 기록했어요" : feedback.correct ? "정답이에요" : "아직 익숙하지 않은 표현이에요"}</p>
+        <ClozeSentence item={item} reveal />
+        <div className="feedback-answer"><span className="small quiet">정답</span><strong lang="en">{feedback.expected_answer}</strong></div>
         {feedback.correct === false && <p className="quiet">내 답: <span lang="en">{answer}</span></p>}
-        <p>다음 복습 <time dateTime={feedback.due_at}>{reviewDate(feedback.due_at, timeZone)}</time></p>
-        {item.example && <p className="quiet" lang="en">{item.example}</p>}
+        <p className="feedback-meaning"><span className="small quiet">뜻</span> {item.meaning}</p>
+        <p>다음 복습 <time dateTime={feedback.due_at}>{reviewDate(feedback.due_at, timeZone)}</time>{feedback.correct === false && <span className="small quiet"> · 틀린 단어는 10분 뒤 다시 나와요</span>}</p>
       </div>
-      <button className="primary" ref={nextRef} onClick={next} disabled={pending}>{pending ? "마치는 중…" : index + 1 >= session.queue.length ? "학습 마치기 →" : "다음 단어 →"}</button>
+      <button className="primary" ref={nextRef} onClick={next} disabled={pending}>{pending ? "마치는 중…" : index + 1 >= session.queue.length ? "학습 마치기 →" : "다음 문제 →"}</button>
     </div> : <>
       <form className="study-answer" onSubmit={event => { event.preventDefault(); review("typed", answer); }}>
-        <label htmlFor="answer">영어로 입력하기<input ref={inputRef} id="answer" name="answer" value={answer} onChange={event => setAnswer(event.target.value)} autoComplete="off" autoCapitalize="none" spellCheck={false} maxLength={2000} disabled={locked} aria-describedby="answer-help" /></label>
-        <div className="study-actions"><button className="primary" type="submit" disabled={locked || !answer.trim()}>{pending ? "응답 저장 중…" : "정답 확인"}</button><button type="button" onClick={() => setHint(true)} disabled={locked || hint} aria-expanded={hint}>{hint ? "힌트 사용 중" : "힌트 보기"}</button><span id="answer-help" className="small quiet">{request ? "저장 상태를 먼저 확인해 주세요." : "영어 표현을 입력한 뒤 Enter"}</span></div>
+        <label htmlFor="answer">정답 입력
+          <input ref={inputRef} id="answer" name="answer" value={answer} onChange={event => setAnswer(event.target.value)} placeholder="빈칸에 들어갈 표현을 입력하세요" autoComplete="off" autoCapitalize="none" spellCheck={false} maxLength={2000} disabled={locked} aria-describedby="answer-help" />
+        </label>
+        <div className="study-actions"><button className="primary" type="submit" disabled={locked || !answer.trim()}>{pending ? "정답 확인 중…" : "정답 확인"}</button><button type="button" onClick={() => setHint(true)} disabled={locked || hint} aria-expanded={hint}>{hint ? "힌트 사용 중" : "힌트 보기"}</button><span id="answer-help" className="small quiet">{request ? "저장 상태를 먼저 확인해 주세요." : "영어 철자와 띄어쓰기를 확인해 보세요 · Enter"}</span></div>
       </form>
-      <div className="study-alternatives" key={item.id}>
-        <details onToggle={event => { if (event.currentTarget.open) setHint(true); }}><summary>객관식으로 풀기 <span className="small quiet">도움을 받은 응답으로 기록</span></summary><div className="choice-options">{options.map((option, i) => <button type="button" key={option} onClick={() => review("choice", option)} disabled={locked}><span className="option-number" aria-hidden="true">{i + 1}</span><span lang="en">{option}</span></button>)}</div></details>
-        <details onToggle={event => { if (event.currentTarget.open) setHint(true); }}><summary>정답을 보고 스스로 확인하기</summary><p className="self-answer" lang="en">{item.term}</p><p className="small quiet">스스로 확인한 응답은 직접 입력 정답률에 포함되지 않습니다.</p><div className="actions"><button type="button" onClick={() => review("self", "", "again")} disabled={locked}>다시 보기</button><button type="button" onClick={() => review("self", "", "good")} disabled={locked}>알고 있었어요</button></div></details>
+
+      {hint && <aside className="hint-content" aria-label="단어 힌트"><p><span className="small quiet">첫 글자</span> <strong lang="en">{item.term.slice(0, 1)}</strong> <span className="small quiet">· {item.term.length}글자</span></p><p className="quiet">힌트를 사용한 응답은 짧은 복습 주기로 기록됩니다.</p></aside>}
+
+      <div className="study-help">
+        <details>
+          <summary>막혔나요? 다른 방법으로 풀기 <span className="small quiet">도움을 받은 응답으로 기록</span></summary>
+          <div className="choice-options">{options.map((option, i) => <button type="button" key={option} onClick={() => review("choice", option)} disabled={locked}><span className="option-number" aria-hidden="true">{i + 1}</span><span lang="en">{option}</span></button>)}</div>
+        </details>
+        <details>
+          <summary>정답을 보고 넘어가기</summary>
+          <p className="self-answer" lang="en">{item.term}</p><p className="small quiet">모르는 단어로 표시하면 10분 뒤 다시 복습합니다.</p><div className="actions"><button type="button" onClick={() => review("self", "", "again")} disabled={locked}>다시 복습할게요</button><button type="button" onClick={() => review("self", "", "good")} disabled={locked}>알고 있었어요</button></div>
+        </details>
       </div>
     </>}
     {errorMessage}
-    {pending && <p className="small quiet" role="status">서버에 기록을 저장하고 있습니다.</p>}
+    {pending && <p className="small quiet" role="status">서버에 학습 결과를 기록하고 있습니다.</p>}
   </section>;
 }
