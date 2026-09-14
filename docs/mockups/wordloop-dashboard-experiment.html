@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>오늘의 학습 · WordLoop</title>
+  <!-- Standalone design experiment. All words, scores, dates and counts are fictional.
+       No network, authentication, persistence, production grading or scheduling. -->
+  <style>
+    :root { --paper:#f4f1ea; --surface:#fbfaf6; --ink:#211f1b; --quiet:#625e57; --line:#d9d3c8; --soft:#e1dbd0; --accent:#b9472f; --focus:#2879b9; --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s6:24px; --s8:32px; --s12:48px; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:system-ui,-apple-system,"Segoe UI","Malgun Gothic",sans-serif; font-size:16px; line-height:1.6; }
+    body:has(dialog[open]) { overflow:hidden; }
+    button,input { font:inherit; }
+    button,a,summary { -webkit-tap-highlight-color:transparent; }
+    button { color:inherit; cursor:pointer; }
+    button,a { touch-action:manipulation; }
+    a { color:inherit; text-underline-offset:5px; }
+    :where(button,a,input,summary,[tabindex]):focus-visible { outline:3px solid var(--focus); outline-offset:4px; }
+    [hidden] { display:none !important; }
+    h1,h2,h3,p { margin:0; }
+    h1,h2,h3 { line-height:1.3; letter-spacing:-.035em; }
+    p,li,h1,h2,h3 { overflow-wrap:anywhere; }
+    h1 { font-size:30px; } h2 { font-size:20px; } h3 { font-size:18px; }
+    .quiet { color:var(--quiet); } .small { font-size:14px; }
+    .skip { position:fixed; left:16px; top:-100px; z-index:5; background:var(--surface); padding:12px; }
+    .skip:focus { top:8px; }
+    .shell { max-width:1080px; margin:auto; padding-inline:16px; }
+    .topbar { height:64px; display:flex; align-items:center; justify-content:space-between; gap:12px; border-bottom:1px solid var(--line); }
+    .brand { font-size:21px; font-weight:700; letter-spacing:-1px; text-decoration:none; display:flex; align-items:center; min-height:44px; }
+    nav { display:flex; gap:12px; align-items:center; }
+    nav a,nav button { display:inline-flex; align-items:center; min-height:44px; padding:0 2px; background:none; border:0; border-bottom:2px solid transparent; font-size:14px; text-decoration:none; white-space:nowrap; }
+    nav [aria-current] { border-bottom-color:var(--ink); font-weight:700; }
+    main { padding-block:24px 48px; }
+    .page-title { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:8px 16px; margin-bottom:24px; }
+    .page-title time { font-size:14px; color:var(--quiet); }
+    .overview { border-top:2px solid var(--ink); border-bottom:1px solid var(--line); }
+    .start { padding-block:24px; }
+    .due { display:flex; align-items:baseline; gap:12px; margin-bottom:8px; }
+    .due h2 { font-size:16px; font-weight:600; letter-spacing:0; }
+    .quantity { font-size:48px; line-height:1.1; letter-spacing:-2px; font-weight:600; font-variant-numeric:tabular-nums; }
+    .quantity span { font-size:16px; letter-spacing:0; margin-left:4px; }
+    .primary { background:var(--accent); color:#fffaf2; border:1px solid var(--accent); border-radius:8px; padding:12px 20px; min-height:52px; font-weight:600; display:flex; justify-content:space-between; align-items:center; gap:16px; width:100%; transition:background-color 140ms; }
+    .primary:hover { background:#9f3b27; }
+    #begin { margin-top:24px; }
+    .progress-area { padding:24px 0; border-top:1px solid var(--line); }
+    .progress-heading { display:flex; justify-content:space-between; align-items:baseline; gap:12px; }
+    .progress-heading h2 { font-size:16px; font-weight:600; }
+    .progress-heading p { font-size:14px; color:var(--quiet); }
+    .progress-heading strong { font-size:24px; color:var(--ink); font-variant-numeric:tabular-nums; }
+    progress { display:block; width:100%; height:5px; margin:12px 0; border:none; background:var(--soft); color:var(--ink); accent-color:var(--ink); border-radius:0; }
+    progress::-webkit-progress-bar { background:var(--soft); } progress::-webkit-progress-value { background:var(--ink); } progress::-moz-progress-bar { background:var(--ink); }
+    .review-section { padding-top:32px; }
+    .section-head { margin-bottom:16px; }
+    .section-head p { margin-top:8px; }
+    .word-list { padding:0; margin:0; list-style:none; }
+    .word-row { padding:24px 0; border-top:1px solid var(--line); display:grid; grid-template-columns:1fr auto; gap:12px 16px; }
+    .word-row:last-child { border-bottom:1px solid var(--line); }
+    .word-title { font-size:24px; letter-spacing:-.025em; font-weight:600; line-height:1.3; }
+    .meaning { font-size:14px; color:var(--quiet); margin-top:4px; }
+    .mastery { grid-column:1 / -1; grid-row:2; }
+    .mastery-head { display:flex; justify-content:space-between; gap:12px; font-size:14px; }
+    .mastery-head strong { font-weight:600; font-variant-numeric:tabular-nums; }
+    .meter { height:5px; margin:8px 0; background:var(--soft); }
+    .meter span { display:block; height:100%; background:var(--mastery-color, var(--ink)); transition:width 220ms ease, background-color 220ms ease; }
+    .meter.low { --mastery-color:#a84d3a; }
+    .meter.developing { --mastery-color:#876a2c; }
+    .meter.established { --mastery-color:#387265; }
+    .meter.stable { --mastery-color:#235b4e; }
+    .when { grid-column:1 / -1; display:flex; flex-wrap:wrap; gap:4px 16px; font-size:14px; }
+    .text-button { border:0; background:none; padding:8px 0; min-height:44px; font-size:14px; text-decoration:underline; text-underline-offset:5px; }
+    .text-button:hover { color:var(--accent); }
+    .word-row > button { grid-column:2; grid-row:1; align-self:center; }
+    .explanation { margin-top:16px; max-width:700px; }
+    footer { display:flex; justify-content:space-between; padding-block:24px; border-top:1px solid var(--line); color:var(--quiet); font-size:14px; }
+    dialog { color:var(--ink); background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:24px; width:min(620px,calc(100% - 32px)); max-height:calc(100svh - 32px); overflow:auto; }
+    dialog::backdrop { background:rgb(33 31 27 / 38%); }
+    dialog[open] { animation:appear 140ms ease-out; }
+    .dialog-top { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:24px; }
+    .dialog-top button { padding-inline:8px; }
+    .sentence { font-size:clamp(22px,5vw,30px); line-height:1.5; margin:16px 0; font-weight:600; }
+    .translation { margin-bottom:24px; }
+    label { display:block; font-weight:600; margin-bottom:8px; }
+    input { background:var(--paper); color:var(--ink); width:100%; min-height:48px; border:1px solid var(--quiet); border-radius:4px; padding:8px 12px; margin-bottom:16px; }
+    .feedback { padding:16px; margin:16px 0; background:var(--paper); border-left:3px solid var(--ink); }
+    .dialog-list { list-style:none; margin:16px 0 0; padding:0; }
+    .dialog-list li { padding:12px 0; border-top:1px solid var(--line); }
+    .dialog-list strong { margin-right:12px; }
+    #detail-copy p + p { margin-top:12px; }
+    @keyframes appear { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
+    @media(min-width:700px) {
+      .shell { padding-inline:32px; } .topbar { height:80px; } nav { gap:32px; }
+      main { padding-top:48px; } h1 { font-size:36px; } .page-title { margin-bottom:32px; }
+      .overview { display:grid; grid-template-columns:1.6fr 1fr; gap:48px; align-items:center; }
+      .start { padding-block:32px; } .quantity { font-size:64px; }
+      .progress-area { border-top:0; border-left:1px solid var(--line); padding:8px 0 8px 32px; }
+      #begin { max-width:420px; } .review-section { padding-top:48px; }
+      .word-row { grid-template-columns:1.1fr 1.2fr 1fr auto; align-items:center; gap:24px; }
+      .mastery { grid-column:auto; grid-row:auto; } .when { grid-column:auto; display:block; } .when span { display:block; }
+      .word-row > button { grid-column:auto; grid-row:auto; }
+    }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; } }
+    @media(forced-colors:active) { .primary { border:2px solid ButtonText; } .meter { border:1px solid CanvasText; } .meter span { background:Highlight; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">학습 내용으로 건너뛰기</a>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="#main" aria-label="WordLoop 오늘 홈">WordLoop</a>
+      <nav aria-label="주 메뉴"><a href="#main" aria-current="page">오늘</a><button id="library">단어장</button><button id="records">기록</button></nav>
+    </header>
+    <main id="main" tabindex="-1">
+      <div class="page-title"><h1>오늘의 학습</h1><time datetime="2026-09-14">9월 14일 월요일</time></div>
+      <section class="overview" aria-label="오늘 학습 시작과 진행">
+        <div class="start">
+          <div class="due"><h2>오늘 복습 대기</h2><p class="quantity">8<span>개</span></p></div>
+          <p class="quiet">복습부터 시작해요. 새 단어 4개와 함께 총 12개.</p>
+          <button class="primary" id="begin">오늘의 단어 시작하기 <span aria-hidden="true">→</span></button>
+        </div>
+        <div class="progress-area">
+          <div class="progress-heading"><h2>오늘 완료</h2><p><strong id="done-count">8</strong> / 목표 20회</p></div>
+          <progress id="daily-progress" value="8" max="20" aria-label="오늘 목표 20회 중 8회 응답 완료"></progress>
+          <p class="quiet small" id="daily-note">답을 제출할 때마다 1회로 기록해요.</p>
+        </div>
+      </section>
+      <section class="review-section" aria-labelledby="mistakes-title">
+        <div class="section-head"><h2 id="mistakes-title">최근 틀린 단어</h2><p class="small quiet">오늘 복습에 포함돼 있어요. 한 번 더 떠올려 보세요.</p></div>
+        <ul class="word-list">
+          <li class="word-row">
+            <div><h3 class="word-title" lang="en">reluctant</h3><p class="meaning">꺼리는, 내키지 않는</p></div>
+            <div class="mastery"><div class="mastery-head"><span>숙련도 · 다시 만날 단어</span><strong>25 / 100</strong></div><div class="meter low" aria-hidden="true"><span style="width:25%"></span></div><p class="small quiet">아직 익숙하지 않음</p></div>
+            <div class="when"><span class="quiet">9월 13일 오답</span><span>다음 복습 · 오늘</span></div><button class="text-button" data-word="0" aria-label="reluctant 예문 보기">예문 보기</button>
+          </li>
+          <li class="word-row">
+            <div><h3 class="word-title" lang="en">retain</h3><p class="meaning">유지하다, 기억하다</p></div>
+            <div class="mastery"><div class="mastery-head"><span>숙련도 · 익숙해지는 중</span><strong>45 / 100</strong></div><div class="meter developing" aria-hidden="true"><span style="width:45%"></span></div><p class="small quiet">익숙해지는 중</p></div>
+            <div class="when"><span class="quiet">9월 12일 오답</span><span>다음 복습 · 오늘</span></div><button class="text-button" data-word="1" aria-label="retain 예문 보기">예문 보기</button>
+          </li>
+          <li class="word-row">
+            <div><h3 class="word-title" lang="en">eventually</h3><p class="meaning">결국, 마침내</p></div>
+            <div class="mastery"><div class="mastery-head"><span>숙련도 · 기억이 자리 잡는 중</span><strong>60 / 100</strong></div><div class="meter established" aria-hidden="true"><span style="width:60%"></span></div><p class="small quiet">기억이 자리 잡는 중</p></div>
+            <div class="when"><span class="quiet">9월 11일 오답</span><span>다음 복습 · 오늘</span></div><button class="text-button" data-word="2" aria-label="eventually 예문 보기">예문 보기</button>
+          </li>
+        </ul>
+        <p class="small quiet explanation">숙련도는 학습 응답에 따라 쌓이는 0–100점이에요. 정답 확률은 아니며, 다음 복습 시점은 따로 정해져요.</p>
+      </section>
+    </main>
+    <footer><span>WordLoop</span><span>단어를 기억하는 나의 기록</span></footer>
+  </div>
+  <dialog id="study" aria-labelledby="study-title">
+    <div class="dialog-top"><h2 id="study-title">오늘의 단어</h2><button class="text-button" data-close>닫기</button></div>
+    <div id="exercise">
+      <p id="position" class="small quiet"></p>
+      <p id="sentence" class="sentence" lang="en"></p><p id="translation" class="quiet translation"></p>
+      <form id="answer-form"><label for="answer">빈칸에 들어갈 표현</label><input id="answer" autocomplete="off" autocapitalize="none" spellcheck="false" required maxlength="200"><button class="primary" type="submit">정답 확인 <span aria-hidden="true">→</span></button></form>
+      <div id="feedback" class="feedback" role="status" hidden></div>
+      <button id="next" class="primary" hidden>다음 단어 →</button>
+    </div>
+    <div id="complete" hidden><h3 tabindex="-1" id="complete-title">오늘의 단어를 모두 떠올렸어요.</h3><p class="quiet" style="margin:16px 0 24px">12개의 응답을 남겼어요. 오늘의 학습을 마쳐도 좋아요.</p><button class="primary" data-close>오늘로 돌아가기 <span aria-hidden="true">→</span></button></div>
+  </dialog>
+  <dialog id="detail" aria-labelledby="detail-title"><div class="dialog-top"><h2 id="detail-title"></h2><button class="text-button" data-close>닫기</button></div><div id="detail-copy"></div></dialog>
+  <noscript><p class="shell">학습 시작과 단어 상세를 열려면 브라우저에서 JavaScript를 허용해 주세요.</p></noscript>
+  <script>
+    // Fictional local session only. Reload resets every change. Scores and scheduling remain static.
+    const words = [
+      ['reluctant','꺼리는, 내키지 않는','She was reluctant to leave.','그녀는 떠나기를 내키지 않아 했다.',25],
+      ['retain','유지하다, 기억하다','Practice helps us retain new words.','연습은 새로운 단어를 기억하는 데 도움이 된다.',45],
+      ['eventually','결국, 마침내','We eventually found the right path.','우리는 마침내 올바른 길을 찾았다.',60],
+      ['approach','접근하다','We should approach the problem carefully.','우리는 그 문제에 신중하게 접근해야 한다.',70],
+      ['notice','알아차리다','Did you notice the small sign?','작은 표지판을 알아차렸나요?',85],
+      ['steady','꾸준한','She made steady progress.','그녀는 꾸준히 발전했다.',90],
+      ['brief','짧은','We had a brief conversation.','우리는 짧은 대화를 나눴다.',55],
+      ['gather','모이다','We gather here every Sunday.','우리는 매주 일요일 여기에 모인다.',40],
+      ['adapt','적응하다','Plants adapt to their surroundings.','식물은 주변 환경에 적응한다.',null],
+      ['afford','여유가 되다','We can afford a short break.','우리는 잠시 쉴 여유가 있다.',null],
+      ['clarify','명확히 하다','Please clarify your question.','질문을 명확히 해 주세요.',null],
+      ['sustain','유지하다','Small habits sustain our progress.','작은 습관이 우리의 발전을 유지한다.',null]
+    ];
+    const $ = id => document.getElementById(id);
+    let index = 0, completed = 0, answered = false;
+    function openDialog(dialog) { dialog.showModal(); }
+    document.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => button.closest('dialog').close()));
+    function renderQuestion() {
+      const word = words[index];
+      $('exercise').hidden = false; $('complete').hidden = true;
+      $('position').textContent = `${index < 8 ? '복습' : '새 단어'} · ${index + 1} / ${words.length}`;
+      $('sentence').textContent = word[2].replace(word[0], '_____');
+      $('translation').textContent = word[3];
+      $('answer-form').hidden = false; $('answer-form').reset();
+      $('feedback').hidden = true; $('next').hidden = true;
+      answered = false; $('answer').focus();
+    }
+    $('begin').addEventListener('click', () => {
+      if (index >= words.length) index = 0;
+      openDialog($('study'));
+      if (!answered) renderQuestion(); else $('next').focus();
+    });
+    $('answer-form').addEventListener('submit', event => {
+      event.preventDefault();
+      if (answered) return;
+      const answer = $('answer').value.trim();
+      if (!answer) { $('answer').focus(); return; }
+      answered = true; completed++;
+      const word = words[index];
+      const correct = answer.toLowerCase() === word[0];
+      $('feedback').textContent = `${correct ? '정답이에요.' : '이 표현을 기억해 보세요.'} ${word[0]} · ${word[1]} — ${word[2]}`;
+      $('feedback').hidden = false; $('answer-form').hidden = true; $('next').hidden = false;
+      $('next').textContent = index === words.length - 1 ? '학습 마치기 →' : '다음 단어 →';
+      $('done-count').textContent = 8 + completed;
+      $('daily-progress').value = Math.min(20, 8 + completed);
+      $('daily-progress').setAttribute('aria-label', `오늘 목표 20회 중 ${8 + completed}회 응답 완료`);
+      if (8 + completed >= 20) $('daily-note').textContent = '오늘 목표를 채웠어요. 더 공부해도 좋아요.';
+      $('begin').textContent = '오늘의 단어 이어하기 →';
+      $('next').focus();
+    });
+    $('next').addEventListener('click', () => {
+      index++; answered = false;
+      if (index < words.length) { renderQuestion(); return; }
+      $('exercise').hidden = true; $('complete').hidden = false;
+      $('begin').textContent = '오늘의 단어 다시 보기 →';
+      $('complete-title').focus();
+    });
+    function detail(title, paragraphs) {
+      $('detail-title').textContent = title;
+      $('detail-copy').replaceChildren();
+      paragraphs.forEach(([text, language]) => {
+        const p = document.createElement('p'); p.textContent = text;
+        if (language) p.lang = language;
+        $('detail-copy').append(p);
+      });
+      openDialog($('detail'));
+    }
+    document.querySelectorAll('[data-word]').forEach(button => button.addEventListener('click', () => {
+      const word = words[Number(button.dataset.word)];
+      detail(word[0], [[word[1]], [word[2], 'en'], [word[3]], [`숙련도 ${word[4]} / 100 · 다음 복습 오늘`], ['오늘의 단어를 시작하면 이 표현을 다시 만나요.']]);
+      $('detail-title').lang = 'en';
+    }));
+    $('library').addEventListener('click', () => {
+      detail('나의 단어장', [['오늘 만날 단어']]); $('detail-title').lang = 'ko';
+      const list = document.createElement('ul'); list.className = 'dialog-list';
+      words.forEach(word => {
+        const li = document.createElement('li'); const term = document.createElement('strong'); term.lang = 'en'; term.textContent = word[0];
+        const meaning = document.createElement('span'); meaning.textContent = word[1];
+        const state = document.createElement('p'); state.className = 'small quiet';
+        state.textContent = word[4] === null ? '숙련도 평가 전 · 첫 학습 대기' : `숙련도 ${word[4]} / 100 · 다음 복습 오늘`;
+        li.append(term, meaning, state); list.append(li);
+      }); $('detail-copy').append(list);
+    });
+    $('records').addEventListener('click', () => {
+      detail('학습 기록', [['최근 3일의 응답'], [`9월 14일 · ${8 + completed}회`], ['9월 13일 · 16회'], ['9월 12일 · 20회'], ['응답 횟수는 정답·오답을 모두 포함해요.']]); $('detail-title').lang = 'ko';
+    });
+  </script>
+</body>
+</html>
