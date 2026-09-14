@@ -108,6 +108,20 @@ WordLoop는 블로그의 종이색과 검정 계열을 유지하되, 앱에서�
 
 정답 여부를 잔디 색으로 표현하지 않는다. 잔디는 학습 활동량만 나타내고, 정답·오답은 별도의 의미 있는 라벨과 상태 색으로 표시한다.
 
+### Mastery progression
+
+단어 숙련도는 오류·경고·성공 상태가 아니라 개인 연습 신호다. 따라서 빨강·노랑·초록의 경고등 문법을 사용하지 않고, 기존 테라코타 계열을 연한색에서 포인트 컬러로 키워 표현한다.
+
+```css
+--mastery-unreviewed: var(--surface-strong); /* #e1dbd0 */
+--mastery-low: var(--heat-1);                /* #f0cfc4 */
+--mastery-developing: var(--heat-2);         /* #e6a895 */
+--mastery-established: var(--heat-3);       /* #da7e68 */
+--mastery-stable: var(--accent);            /* #d45b3d */
+```
+
+평가 전은 `reviews = 0`인 특별한 상태이고, 복습 후 점수 구간은 `0–29 / 30–59 / 60–84 / 85–100`을 사용한다. 색상은 채워진 도트·막대에만 적용하며 점수, 상태 문구, `aria-valuetext`를 항상 함께 제공한다. `--success`와 `--danger`는 정답·오답 및 시스템 상태 전용으로 유지한다. 상세 결정과 적용 순서는 [ADR-0009](docs/decisions/0009-warm-ink-mastery-palette.md)에 기록한다.
+
 ## 4. Typography
 
 제목과 본문은 저장소에 포함된 Pretendard Variable을 우선 사용한다. 외부 CDN 폰트는 호출하지 않는다.

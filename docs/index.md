@@ -17,3 +17,4 @@
 - [ADR-0006: adaptive learner ability](decisions/0006-adaptive-learner-ability.md)
 - [ADR-0007: sentence meaning and per-word mastery](decisions/0007-word-mastery-and-example-meaning.md)
 - [ADR-0008: semantic mastery color scale](decisions/0008-semantic-mastery-color-scale.md)
+- [ADR-0009: warm ink mastery palette](decisions/0009-warm-ink-mastery-palette.md)

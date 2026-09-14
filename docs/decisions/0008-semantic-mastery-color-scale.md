@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted — 2026-09-14. Visual implementation is planned; the current application is not changed by this decision record.
+Superseded — 2026-09-14 by ADR-0009. The original four-band structure remains useful, but its traffic-light-like palette was replaced after visual and design-system review.
 
 ## Context
 
