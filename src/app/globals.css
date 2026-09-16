@@ -65,8 +65,9 @@ small, .small { font-size: .8rem; }
 .public-header, .app-toolbar { max-width: 1200px; margin: auto; min-height: 88px; padding: 1rem 32px; display: flex; align-items: center; gap: 2rem; }
 .public-header { justify-content: space-between; }
 .public-header .eyebrow { margin: 0; font-size: .65rem; }
-.logo { width: 7.2rem; flex: 0 0 7.2rem; font-size: 1.55rem; font-weight: 700; letter-spacing: -.055em; white-space: nowrap; display: inline-flex; align-items: center; min-height: 44px; }
-.logo span { color: var(--accent); }
+.logo { width: auto; flex: 0 0 auto; gap: .45rem; font-size: 1.55rem; font-weight: 700; letter-spacing: -.055em; white-space: nowrap; display: inline-flex; align-items: center; min-height: 44px; }
+.logo-mark { width: 1.85rem; height: 1.85rem; flex: 0 0 auto; }
+.logo-word > span { color: var(--accent); }
 .site-footer { max-width: 1136px; margin: auto; padding: 1.5rem 0 2rem; display: flex; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--line); color: var(--text-secondary); font-size: .75rem; }
 .hero { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .hero-inner { max-width: 1200px; padding: clamp(2rem, 5vw, 4.5rem) 32px 1.4rem; margin: auto; }
