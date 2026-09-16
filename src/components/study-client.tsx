@@ -166,7 +166,7 @@ export function StudyClient({ timeZone }: { timeZone: string }) {
   const locked = pending || Boolean(request);
   return <section className="study-workspace" aria-busy={pending}>
     <div className="study-progress"><span>오늘의 학습 <strong>{String(index + 1).padStart(2, "0")}</strong> <span className="quiet">/ {String(session.queue.length).padStart(2, "0")}</span></span><span className="small quiet">L{session.ability.level} 적응 중 · {item.daily_source === "catalog_random" ? "새 단어" : item.due_at ? `복습 단계 ${item.stage}` : "처음 만나는 단어"}</span></div>
-    <progress value={index + (feedback ? 1 : 0)} max={session.queue.length} aria-label="이번 학습에서 저장한 응답" />
+    <progress className="study-session-progress" value={index + (feedback ? 1 : 0)} max={session.queue.length} aria-label="이번 학습에서 저장한 응답" />
 
     <div className="study-prompt" key={item.id}>
       <p className="eyebrow">문장의 빈칸을 채워 보세요</p>

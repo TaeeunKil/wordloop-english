@@ -11,6 +11,7 @@ WordLoop is a single Next.js application for one person's English vocabulary pra
 - Use Supabase as the source of truth. Do not add localStorage as a second persistence layer.
 - Keep service-role keys server-only; the browser may use only the publishable key.
 - Add or update docs when an architectural or operational decision changes.
+- For visible UI work, read both `DESIGN.md` and `UX.md`; keep visual rules in `DESIGN.md`, user flows and responsive behavior in `UX.md`.
 - Use `apply_patch` for hand edits and run the narrowest relevant checks before committing.
 
 ## Verification

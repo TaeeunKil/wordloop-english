@@ -1,10 +1,14 @@
 import { test, expect } from "@playwright/test";
 
-test("landing explains WordLoop and loads the bundled font", async ({ page }) => {
+test("landing offers a quick practice preview and loads the bundled font", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveTitle(/WordLoop/);
-  await expect(page.getByRole("heading", { name: /WordLoop/ })).toBeVisible();
-  await expect(page.getByRole("region", { name: "학습 흐름" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /모아둔 단어를/ })).toBeVisible();
+  await expect(page.getByRole("region", { name: /한 문장으로 기억해 보세요/ })).toBeVisible();
+  await expect(page.getByRole("textbox", { name: "빈칸에 들어갈 표현" })).toBeVisible();
+  await page.getByRole("textbox", { name: "빈칸에 들어갈 표현" }).fill("evaluate");
+  await page.getByRole("button", { name: /정답 확인/ }).click();
+  await expect(page.getByRole("status")).toContainText("정답이에요");
   const font = await page.request.get("/fonts/PretendardVariable.woff2");
   expect(font.ok()).toBe(true);
   expect((await font.body()).length).toBeGreaterThan(1000);
@@ -24,6 +28,22 @@ test("skip link moves keyboard focus to the main content", async ({ page }) => {
 test("auth failure gives a readable retry explanation", async ({ page }) => {
   await page.goto("/?auth=failed");
   await expect(page.locator("main").getByRole("alert")).toContainText("로그인을 완료하지 못했습니다");
+});
+
+test("PWA shell exposes install metadata without caching user data", async ({ request }) => {
+  const manifestResponse = await request.get("/manifest.webmanifest");
+  expect(manifestResponse.ok()).toBe(true);
+  const manifest = await manifestResponse.json();
+  expect(manifest.name).toContain("WordLoop");
+  expect(manifest.start_url).toBe("/dashboard");
+  expect(manifest.display).toBe("standalone");
+  expect(manifest.icons[0].src).toBe("/icon.svg");
+
+  const serviceWorker = await request.get("/sw.js");
+  expect(serviceWorker.ok()).toBe(true);
+  const serviceWorkerSource = await serviceWorker.text();
+  expect(serviceWorkerSource).toContain('STATIC_DESTINATIONS');
+  expect(serviceWorkerSource).not.toContain("supabase");
 });
 
 test("setup keeps operator details behind a keyboard disclosure", async ({ page }) => {
